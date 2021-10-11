@@ -1,0 +1,5 @@
+*.iml
+.idea/*
+out/*
+*.zip
+.DS_Store
