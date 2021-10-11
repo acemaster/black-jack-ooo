@@ -1,7 +1,7 @@
 
-#BlackJack
+# BlackJack
 TBD
-###Compile and run
+### Compile and run
 **Extract the zip file into a folder.
 All the below commands are run in the extracted directory.
 The code is compiled in a separate directory for cleaner builds and easy recreates**
