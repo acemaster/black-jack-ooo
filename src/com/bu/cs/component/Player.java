@@ -1,11 +1,11 @@
 package com.bu.cs.component;
 
-public class Player {
+public abstract class Player {
 
-    private int playerId;
-    private String name;
-    private int wins;
-    private boolean isHuman;
+    protected int playerId;
+    protected String name;
+    protected int wins;
+    protected boolean isHuman;
 
     /**
      * Create new player win 0 wins
