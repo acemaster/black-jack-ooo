@@ -5,7 +5,7 @@ import com.bu.cs.component.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardPlayer extends Player {
+public abstract class CardPlayer extends Player {
 
     private List<Card> cards;
     private List<Chip> chips;
