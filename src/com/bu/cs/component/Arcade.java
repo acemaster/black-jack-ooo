@@ -1,5 +1,7 @@
 package com.bu.cs.component;
 
+import com.bu.cs.component.cardgame.blackJack.BlackJackGame;
+import com.bu.cs.component.cardgame.trianta.TriantaGame;
 import com.bu.cs.helper.GameFunctions;
 
 import java.util.Scanner;
@@ -9,7 +11,9 @@ public class Arcade {
     private Game[] games;
 
     public Arcade() {
-        games = new Game[1];
+        games = new Game[2];
+        games[0] = new BlackJackGame();
+        games[1] = new TriantaGame();
     }
 
     public void startArcade() {
