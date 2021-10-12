@@ -17,6 +17,7 @@ TBD
 4. split() -> Convert to 2 hands only if they have 2 cards of same rank
 5. doubleUp() -> Double the bet, single hit and stand
 6. endGame() -> Dealer function, once all players stand it can be called.
+7. cashout() -> Player wants to quit the game and cashout
 ### Compile and run
 **Extract the zip file into a folder.
 All the below commands are run in the extracted directory.
