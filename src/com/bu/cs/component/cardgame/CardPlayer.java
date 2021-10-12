@@ -1,6 +1,8 @@
 package com.bu.cs.component.cardgame;
 
 import com.bu.cs.component.Player;
+import com.bu.cs.component.cardgame.card.Card;
+import com.bu.cs.component.cardgame.card.Hand;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,7 @@ public abstract class CardPlayer extends Player {
         this.hands = hands;
     }
 
-    public void addCard(Card card,int handIndex) {
+    public void addCard(Card card, int handIndex) {
         hands.get(handIndex).addCard(card);
     }
 

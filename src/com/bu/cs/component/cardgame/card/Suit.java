@@ -1,4 +1,4 @@
-package com.bu.cs.component.cardgame;
+package com.bu.cs.component.cardgame.card;
 
 public enum Suit {
     HEARTS("\u001B[31m"),

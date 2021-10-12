@@ -1,4 +1,4 @@
-package com.bu.cs.component.cardgame;
+package com.bu.cs.component.cardgame.card;
 
 import java.util.ArrayList;
 import java.util.List;

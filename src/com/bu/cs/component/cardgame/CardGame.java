@@ -1,6 +1,7 @@
 package com.bu.cs.component.cardgame;
 
 import com.bu.cs.component.Game;
+import com.bu.cs.component.cardgame.card.Deck;
 import com.bu.cs.component.cardgame.exception.NoDeckException;
 
 import java.util.ArrayList;

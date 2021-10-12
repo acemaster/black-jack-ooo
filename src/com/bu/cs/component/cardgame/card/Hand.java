@@ -1,4 +1,4 @@
-package com.bu.cs.component.cardgame;
+package com.bu.cs.component.cardgame.card;
 
 import com.bu.cs.helper.GameConstants;
 
