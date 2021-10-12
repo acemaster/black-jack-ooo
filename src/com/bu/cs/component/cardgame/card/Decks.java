@@ -18,7 +18,7 @@ public class Decks {
         }
     }
 
-    public Deck getRandomDeck() throws NoDeckException {
+    private Deck getRandomDeck() throws NoDeckException {
         if(deckList.size() == 1 && deckList.get(0).getRemainingCards() > 0) {
             return deckList.get(0);
         }
