@@ -6,7 +6,7 @@ import com.bu.cs.component.cardgame.CardGame;
 public class TriantaGame extends CardGame {
     @Override
     public String getName() {
-        return null;
+        return "Trianta Enta";
     }
 
     @Override

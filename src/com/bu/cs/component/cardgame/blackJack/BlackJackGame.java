@@ -6,7 +6,7 @@ import com.bu.cs.component.cardgame.CardGame;
 public class BlackJackGame extends CardGame {
     @Override
     public String getName() {
-        return null;
+        return "Black Jack";
     }
 
     @Override
