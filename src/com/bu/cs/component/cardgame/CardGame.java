@@ -35,6 +35,7 @@ public abstract class CardGame implements Game {
             return decks.get(0);
         }
         else {
+            //Todo: Change the logic to random
             for(Deck deckItem:decks) {
                 if(deckItem.getRemainingCards() > 0) {
                     return deckItem;
