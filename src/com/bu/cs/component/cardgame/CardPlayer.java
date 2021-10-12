@@ -7,46 +7,66 @@ import java.util.List;
 
 public abstract class CardPlayer extends Player {
 
-    private List<Card> cards;
-    private List<Chip> chips;
+    private List<Hand> hands;
+    private int money;
 
     public CardPlayer() {
-        cards = new ArrayList<>();
-        chips = new ArrayList<>();
+        hands = new ArrayList<>();
+        hands.add(new Hand());
+        money = 0;
     }
 
 
-    public List<Card> getCards() {
-        return cards;
+    public List<Hand> getHands() {
+        return hands;
     }
 
-    public void setCards(List<Card> cards) {
-        this.cards = cards;
+    public void setHands(List<Hand> hands) {
+        this.hands = hands;
     }
 
-    public List<Chip> getChips() {
-        return chips;
+    public void addCard(Card card,int handIndex) {
+        hands.get(handIndex).addCard(card);
     }
 
-    public void setChips(List<Chip> chips) {
-        this.chips = chips;
+    public void addCard(Card card) {
+        hands.get(0).addCard(card);
     }
 
-    public int currentAmount() {
-        int sum = 0;
-        for(Chip chip:chips) {
-            sum += chip.getValue();
+    public void removeCard(Card card,int handIndex) {
+        hands.get(handIndex).removeCard(card);
+    }
+
+    public void removeCard(Card card) {
+        hands.get(0).removeCard(card);
+    }
+
+    public void summary() {
+        if(hands.size() == 1) {
+            hands.get(0).display();
         }
-        return sum;
-    }
-
-    public int currentHand() {
-        int sum = 0;
-        for(Card card:cards) {
-            sum += card.getCardValue().getValue();
+        else {
+            for(int i=0;i<hands.size();i++) {
+                System.out.println("Hand "+(i+1));
+                hands.get(i).display();
+            }
         }
-        return sum;
+        System.out.println("Total money: "+money);
     }
 
+    public int getMoney() {
+        return money;
+    }
 
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+    public void addMoney(int value) {
+        this.money = this.money + value;
+    }
+
+    public void removeMoney(int value) {
+        this.money = this.money - value;
+    }
 }
