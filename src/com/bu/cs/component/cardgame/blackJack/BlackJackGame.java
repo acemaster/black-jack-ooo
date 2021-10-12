@@ -26,9 +26,9 @@ public class BlackJackGame extends CardGame {
             cardGameConfig.setNumberOfDecks(1);
             initializeDeck();
             cardPlayers.add(new BlackJackPlayer());
-            cardPlayers.get(0).addCard(getRandomDeck().getRandomCard());
-            cardPlayers.get(0).addCard(getRandomDeck().getRandomCard());
-            cardPlayers.get(0).addCard(getRandomDeck().getRandomCard());
+            cardPlayers.get(0).addCard(decks.getRandomCard());
+            cardPlayers.get(0).addCard(decks.getRandomCard());
+            cardPlayers.get(0).addCard(decks.getRandomCard());
             cardPlayers.get(0).addMoney(10);
             cardPlayers.get(0).summary();
         } catch (NoDeckException e) {
