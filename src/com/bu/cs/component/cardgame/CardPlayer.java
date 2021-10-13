@@ -89,4 +89,8 @@ public abstract class CardPlayer extends Player {
             System.out.println("No card in the deck. Hit has failed");
         }
     }
+    
+    public void resethand() {
+    	hands.clear();
+    }
 }
