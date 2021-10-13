@@ -37,4 +37,14 @@ public class Decks {
         }
         return card;
     }
+
+    public Card getRandomCard(boolean isFaceDown) throws NoDeckException {
+        Deck deck = getRandomDeck();
+        Card card = deck.getRandomCard();
+        card.setFaceDown(isFaceDown);
+        if(deck.getRemainingCards() == 0) {
+            deckList.remove(deck);
+        }
+        return card;
+    }
 }

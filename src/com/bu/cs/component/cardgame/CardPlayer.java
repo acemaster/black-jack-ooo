@@ -2,7 +2,9 @@ package com.bu.cs.component.cardgame;
 
 import com.bu.cs.component.Player;
 import com.bu.cs.component.cardgame.card.Card;
+import com.bu.cs.component.cardgame.card.Decks;
 import com.bu.cs.component.cardgame.card.Hand;
+import com.bu.cs.component.cardgame.exception.NoDeckException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,5 +72,21 @@ public abstract class CardPlayer extends Player {
 
     public void removeMoney(int value) {
         this.money = this.money - value;
+    }
+
+    public void hit(Decks decks,int handIndex) {
+        try {
+            hands.get(handIndex).addCard(decks.getRandomCard());
+        } catch (NoDeckException e) {
+            System.out.println("No card in the deck. Hit has failed");
+        }
+    }
+
+    public void hit(Decks decks) {
+        try {
+            hands.get(0).addCard(decks.getRandomCard());
+        } catch (NoDeckException e) {
+            System.out.println("No card in the deck. Hit has failed");
+        }
     }
 }
