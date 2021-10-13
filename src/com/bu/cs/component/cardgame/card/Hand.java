@@ -8,9 +8,17 @@ import java.util.List;
 public class Hand {
 
     private List<Card> cards;
+    private int bet;//each hand can have a bet
+    private boolean won = false;//each hand can win or lose and used to add/deduct money form player
 
     public Hand() {
         cards = new ArrayList<>();
+    }
+    
+  //used to add new hand and place bet during split
+    public Hand(Card new_card, int betvalue) {
+        addCard(new_card);
+        setBet(betvalue);
     }
 
     public List<Card> getCards() {
@@ -78,4 +86,22 @@ public class Hand {
             }
         }
     }
+
+	public int getBet() {
+		return bet;
+	}
+
+	public void setBet(int bet) {
+		this.bet = bet;
+	}
+
+	public void setWon(boolean won) {
+		this.won = won;
+	}
+
+	public boolean isWon() {
+		return won;
+	}
+	
+	
 }

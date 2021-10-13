@@ -1,9 +1,10 @@
 package com.bu.cs.component.cardgame.card;
 
+
 /**
  * Class for individual card
  */
-public class Card {
+public class Card implements Comparable<Card>{
 
     private Suit suit;
     private CardValue cardValue;
@@ -45,4 +46,15 @@ public class Card {
     public void setFaceDown(boolean faceDown) {
         isFaceDown = faceDown;
     }
+
+	@Override
+	public int compareTo(Card o) {
+		// TODO Auto-generated method stub
+		if(cardValue.equals(o.getCardValue()))
+			return 1;
+		else
+			return 0;
+	}
+
+
 }
