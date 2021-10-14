@@ -42,4 +42,7 @@ public abstract class CardGame implements Game {
     public void setCardGameConfig(CardGameConfig cardGameConfig) {
         this.cardGameConfig = cardGameConfig;
     }
+    
+    public abstract void settleRound();
+    	
 }
