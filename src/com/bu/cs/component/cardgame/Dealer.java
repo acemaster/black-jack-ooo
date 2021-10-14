@@ -9,7 +9,7 @@ import java.util.List;
 public class Dealer extends CardPlayer{
 
     public void initialize(Decks decks) {
-        getHands().get(0).addCard(decks.getRandomCard());
+        getHands().get(0).addCard(decks.getRandomCard(false));
         getHands().get(0).addCard(decks.getRandomCard(true));
     }
 
