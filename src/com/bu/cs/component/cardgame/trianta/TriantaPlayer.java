@@ -4,25 +4,26 @@ import com.bu.cs.component.cardgame.CardPlayer;
 import com.bu.cs.component.cardgame.card.Decks;
 
 public class TriantaPlayer extends CardPlayer {
-	private boolean isBanker = false;
-	private boolean fold = false;
+	private boolean isDealer = false;
+	private boolean isfold = false;
 	private boolean cashout = false;
-	
+	private boolean isBust = false;
+	private boolean isStand = false;
 
-	public boolean isBanker() {
-		return isBanker;
+	public boolean isDealer() {
+		return isDealer;
 	}
 
-	public void setBanker(boolean isBanker) {
-		this.isBanker = isBanker;
+	public void setDealer(boolean isDealer) {
+		this.isDealer = isDealer;
 	}
 
 	public boolean isfold() {
-		return fold;
+		return isfold;
 	}
 
 	public void setIsfold(boolean isfold) {
-		this.fold = isfold;
+		this.isfold = isfold;
 	}
 
 	public boolean isCashout() {
@@ -31,6 +32,29 @@ public class TriantaPlayer extends CardPlayer {
 
 	public void setCashout(boolean cashout) {
 		this.cashout = cashout;
+	}
+
+	public boolean isBust() {
+		return isBust;
+	}
+
+	public void setBust(boolean isBust) {
+		this.isBust = isBust;
+	}
+
+	public boolean isStand() {
+		return isStand;
+	}
+
+	public void setStand(boolean isStand) {
+		this.isStand = isStand;
+	}
+	
+	//cashout can't be reset at the end of a round
+	public void resetPlayerround() {
+		setIsfold(false);
+		setBust(false);
+		setStand(false);		
 	}
 	
 }

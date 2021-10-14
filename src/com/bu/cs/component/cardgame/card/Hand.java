@@ -1,6 +1,5 @@
 package com.bu.cs.component.cardgame.card;
 
-import com.bu.cs.component.cardgame.CardPlayer;
 import com.bu.cs.helper.GameConstants;
 
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ import java.util.List;
 public class Hand {
 
     private List<Card> cards;
-    private CardPlayer cardplayer;
     private int bet;//each hand can have a bet
     private boolean won = false;//each hand can win or lose and used to add/deduct money form player
 
@@ -109,23 +107,12 @@ public class Hand {
 
 	public void setWon(boolean won) {
 		this.won = won;
-		if(won == true)
-			this.getCardplayer().addMoney(bet);
-		else
-			this.getCardplayer().removeMoney(bet);
 	}
 
 	public boolean isWon() {
 		return won;
 	}
 
-	public CardPlayer getCardplayer() {
-		return cardplayer;
-	}
-
-	public void setCardplayer(CardPlayer cardplayer) {
-		this.cardplayer = cardplayer;
-	}
 	
 	
 }

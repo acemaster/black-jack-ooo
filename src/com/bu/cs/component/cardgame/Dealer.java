@@ -14,7 +14,7 @@ public class Dealer extends CardPlayer{
         getHands().get(0).addCard(decks.getRandomCard(true));
     }
 
-    public List<Card> dealPlayers(Decks decks) throws NoDeckException {
-        return Arrays.asList(decks.getRandomCard(),decks.getRandomCard());
+    public Card dealPlayers(Decks decks, boolean isFacedown) throws NoDeckException {
+    	return decks.getRandomCard(isFacedown);
     }
 }

@@ -36,4 +36,5 @@ public enum CardValue {
     public int getAltValue() {
         return altValue;
     }
+
 }

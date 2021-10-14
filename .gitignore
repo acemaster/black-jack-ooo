@@ -1,5 +1,9 @@
+.classpath
+.project
+.gitignore
 *.iml
 .idea/*
 out/*
 *.zip
 .DS_Store
+/bin/
