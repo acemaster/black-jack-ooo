@@ -50,11 +50,11 @@ public class TriantaPlayer extends CardPlayer {
 		this.isStand = isStand;
 	}
 	
-	//cashout can't be reset at the end of a round
-	public void resetPlayerround() {
+	//cashOut can't be reset at the end of a round
+	@Override
+	public void resetPlayer() {
 		setIsfold(false);
 		setBust(false);
-		setStand(false);		
+		setStand(false);
 	}
-	
 }

@@ -7,6 +7,10 @@ import java.util.List;
 
 
 public class BlackJackPlayer extends CardPlayer {
+
+	private boolean isStand;
+	private boolean isBust;
+	private boolean isNaturalBlackJack;
 	
 	public void split() {
 		List<Hand> player_hand = this.getHands();
@@ -15,9 +19,41 @@ public class BlackJackPlayer extends CardPlayer {
 		}		
 	}
 	
-	public void doubleup() {
-		int betvalue = this.getHands().get(0).getBet(); //assuming double up is not allowed after a split
-		this.getHands().get(0).setBet(betvalue * 2);
+	public void doubleUp(int handIndex) {
+		int betvalue = this.getHands().get(handIndex).getBet(); //assuming double up is not allowed after a split
+		this.getHands().get(handIndex).setBet(betvalue * 2);
+		isStand = true;
 	}
-	
+
+	public boolean isStand() {
+		return isStand;
+	}
+
+	public void setStand(boolean stand) {
+		isStand = stand;
+	}
+
+	public boolean isBust() {
+		return isBust;
+	}
+
+	public void setBust(boolean bust) {
+		isBust = bust;
+	}
+
+	public boolean isNaturalBlackJack() {
+		return isNaturalBlackJack;
+	}
+
+	public void setNaturalBlackJack(boolean naturalBlackJack) {
+		isNaturalBlackJack = naturalBlackJack;
+	}
+
+	@Override
+	public void resetPlayer() {
+		isStand = false;
+		isBust = false;
+		isNaturalBlackJack = false;
+		resetHand();
+	}
 }

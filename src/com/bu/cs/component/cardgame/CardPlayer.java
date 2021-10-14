@@ -4,7 +4,6 @@ import com.bu.cs.component.Player;
 import com.bu.cs.component.cardgame.card.Card;
 import com.bu.cs.component.cardgame.card.Decks;
 import com.bu.cs.component.cardgame.card.Hand;
-import com.bu.cs.component.cardgame.exception.NoDeckException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,26 +74,21 @@ public abstract class CardPlayer extends Player {
     }
 
     public void hit(Decks decks,int handIndex, boolean facedown) {
-        try {
-            Card card = decks.getRandomCard();
-            card.setFaceDown(facedown);
-            hands.get(handIndex).addCard(card);
-        } catch (NoDeckException e) {
-            System.out.println("No card in the deck. Hit has failed");
-        }
+        Card card = decks.getRandomCard();
+        card.setFaceDown(facedown);
+        hands.get(handIndex).addCard(card);
     }
 
     public void hit(Decks decks, boolean facedown) {
-        try {
-            Card card = decks.getRandomCard();
-            card.setFaceDown(facedown);
-            hands.get(0).addCard(card);
-        } catch (NoDeckException e) {
-            System.out.println("No card in the deck. Hit has failed");
-        }
+        Card card = decks.getRandomCard();
+        card.setFaceDown(facedown);
+        hands.get(0).addCard(card);
     }
     
-    public void resethand() {
+    public void resetHand() {
     	hands.clear();
+        hands.add(new Hand());
     }
+
+    public abstract void resetPlayer();
 }

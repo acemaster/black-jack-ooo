@@ -1,7 +1,5 @@
 package com.bu.cs.component.cardgame.card;
 
-import com.bu.cs.component.cardgame.exception.NoDeckException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,18 +16,16 @@ public class Decks {
         }
     }
 
-    private Deck getRandomDeck() throws NoDeckException {
+    private Deck getRandomDeck(){
         if(deckList.size() == 1 && deckList.get(0).getRemainingCards() > 0) {
             return deckList.get(0);
         }
-        else if(deckList.size() > 1) {
+        else {
             return deckList.get(randomGenerator.nextInt(deckList.size()));
-        } else {
-            throw new NoDeckException();
         }
     }
 
-    public Card getRandomCard() throws NoDeckException {
+    public Card getRandomCard() {
         Deck deck = getRandomDeck();
         Card card = deck.getRandomCard();
         if(deck.getRemainingCards() == 0) {
@@ -38,12 +34,13 @@ public class Decks {
         return card;
     }
 
-    public Card getRandomCard(boolean isFaceDown) throws NoDeckException {
+    public Card getRandomCard(boolean isFaceDown) {
         Deck deck = getRandomDeck();
         Card card = deck.getRandomCard();
         card.setFaceDown(isFaceDown);
         if(deck.getRemainingCards() == 0) {
             deckList.remove(deck);
+            deckList.add(new Deck());
         }
         return card;
     }
