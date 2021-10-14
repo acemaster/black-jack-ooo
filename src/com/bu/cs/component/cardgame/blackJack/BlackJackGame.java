@@ -26,14 +26,7 @@ public class BlackJackGame extends CardGame {
 
     }
 
-    public  boolean isNaturalBlackJack(int playerIndex){
-        List<Hand> hands = this.blackJackPlayers.get(playerIndex).getHands();
-        for(Hand hand: hands){
-            if(hand.currentHand() == this.cardGameConfig.getWinCondition())
-                return true;
-        }
-        return false;
-    }
+
 
     @Override
     public boolean isGameComplete(int playerIndex) {
@@ -68,7 +61,8 @@ public class BlackJackGame extends CardGame {
 
     public boolean isRemainingPlayers() {
         for(BlackJackPlayer blackJackPlayer: blackJackPlayers) {
-            if(blackJackPlayer.getMoney() > 0 && !blackJackPlayer.isStand() && !blackJackPlayer.isBust()) {
+            for(Hand hand: blackJackPlayer.getHands())
+            if(blackJackPlayer.getMoney() > 0 && !hand.isStand() && !hand.isBust()) {
                 return true;
             }
         }
@@ -88,14 +82,10 @@ public class BlackJackGame extends CardGame {
             int currentBet = blackJackPlayers.get(playerIndex).getHands().get(0).getBet();
             while(isRemainingPlayers()){
                 BlackJackPlayer currentPlayer = blackJackPlayers.get(0); //Todo: Use this instead of currentPlayer
-                //Skips the players who have no remaining money
-                if(currentPlayer.getMoney() <= 0 || currentPlayer.isBust() || currentPlayer.isStand()) {
-                    continue;
-                }
                 //Summary of dealer and current player
                 blackjackDealer.summary();
                 currentPlayer.summary();
-                if (this.isNaturalBlackJack(playerIndex)) {
+                if (currentPlayer.isNaturalBlackJack(0, this.cardGameConfig.getWinCondition())) {
                         System.out.println("A natural Black Jack");
                         break;
                 }
@@ -108,7 +98,7 @@ public class BlackJackGame extends CardGame {
                     }
                 }
                 for(int i=0;i<currentPlayer.getHands().size();i++) { // Each hand
-                    while (currentPlayer.getHands().get(i).currentHand() < 21){
+                    while (currentPlayer.getHands().get(i).currentHand() < 21 && !currentPlayer.getHands().get(i).isStand()){
                         System.out.println("Current hand value: " + currentPlayer.getHands().get(i).currentHand());
                         int option = GameFunctions.safeScanIntWithLimit(scanner, "Please enter one of the options:\n1. Hit\n2. Stand\n3. Double", 1, 3);
                         switch (option) {
@@ -117,63 +107,28 @@ public class BlackJackGame extends CardGame {
 //                                System.out.println("Current hand value: " + currentPlayer.getHands().get(i).currentHand());
                                 break;
                             case 2:
-                                currentPlayer.setStand(true);
+                                currentPlayer.getHands().get(i).setStand(true);
                                 break;
                             case 3:
                                 currentPlayer.doubleUp(i, decks);
                                 System.out.println("Current hand value: " + currentPlayer.getHands().get(i).currentHand());
                                 break;
                         }
-                        if (currentPlayer.isStand())
-                            break;
                     }
                     if(currentPlayer.getHands().get(i).currentHand() > 21){ //Bust
                         System.out.println("Hand " + (i+1) + " bust");
-                        currentPlayer.setBust(true);
+                        currentPlayer.getHands().get(i).setBust(true);
 //                        currentPlayer.removeMoney(currentBet);
 //                        System.out.println("Current balance: " + currentPlayer.getMoney());
-                        continue;
                     }
-                    if(currentPlayer.isStand()){
-                        isGameComplete(1);
-                    }
-                }
-                if(currentPlayer.isStand()){
-                    //Todo: Sep
-                int flag = 0;
-                    System.out.println("Initial dealer hand value: " + currentPlayer.getHands().get(0).currentHand());
-                    while(currentPlayer.getHands().get(0).currentHand() <= 17){
-                        currentPlayer.hit(decks, false);
-                        System.out.println("Dealer hand value: " + currentPlayer.getHands().get(0).currentHand());
-                    }
-                    int dealerMoney = 0;
-                    List<Hand> hands = currentPlayer.getHands();
-                    for(Hand hand: hands){
-                        if(hand.currentHand() > currentPlayer.getHands().get(0).currentHand()) {
-                            System.out.println("Hand won");
-                            blackJackPlayers.get(1).addMoney(currentBet * 2);
-                            System.out.println("Current balance: " + blackJackPlayers.get(1).getMoney());
-                        }
-                        else{
-                            dealerMoney += currentBet;
-                        }
-                    }
-                    if(dealerMoney > 0){
-                        System.out.println("Dealer won!");
-                        blackjackDealer.addMoney(dealerMoney);
-//                        System.out.println("Current dealer balance: " + blackJackPlayers.get(0).getMoney());
-                    }
-//                    if(isGameComplete(0)){
-//                        System.out.println("Dealer won!");
-//                        //todo add logic to add and remove money
-//                        blackJackPlayers.get(1).addMoney(currentBet);
-//                        break;
-//                    }
                 }
                 resetGame();
                 playerIndex = (playerIndex + 1)%cardGameConfig.getPlayerCount();
 
             }
+            settleRound();
+
+
 //                System.out.println("Do you want to continue?");
             if(!GameFunctions.safeScanString(scanner, "Do you want to continue?(Y/N)").equalsIgnoreCase("Y")){
                 System.out.println("Thanks for playing!");
@@ -208,6 +163,40 @@ public class BlackJackGame extends CardGame {
 
     @Override
     public void settleRound() {
-
+        System.out.println("Initial dealer hand value: " + blackjackDealer.getHands().get(0).currentHand());
+        while (blackjackDealer.getHands().get(0).currentHand() <= blackjackDealer.getMinValue()) {
+            blackjackDealer.hit(decks, false);
+            System.out.println("Dealer hand value: " + blackjackDealer.getHands().get(0).currentHand());
+        }
+        if(blackjackDealer.getHands().get(0).currentHand() > this.cardGameConfig.getWinCondition()){
+            System.out.println("Dealer Bust!");
+            blackjackDealer.getHands().get(0).setBust(true);
+        }
+        for (BlackJackPlayer currentPlayer : blackJackPlayers) {
+            for (int i = 0; i < currentPlayer.getHands().size(); i++) {
+                int currentBet = currentPlayer.getHands().get(i).getBet();
+                if(blackjackDealer.getHands().get(0).isBust()){ // for dealer bust
+                    currentPlayer.addMoney(currentBet);
+                    continue;
+                }
+                if(currentPlayer.getHands().get(i).isBust()){ // for player bust
+                    currentPlayer.removeMoney(currentBet);
+                    System.out.println("Current balance: " + currentPlayer.getMoney());
+                    continue;
+                }
+                if (blackjackDealer.getHands().get(0).currentHand() > currentPlayer.getHands().get(0).currentHand()) {
+                    System.out.println(currentPlayer.getName() + " Hand" + (i+1) + " won!");
+                    currentPlayer.addMoney(currentBet);
+                    System.out.println("Current balance: " + blackJackPlayers.get(1).getMoney());
+                } else {
+                    blackjackDealer.addMoney(currentBet);
+                }
+//                if (dealerMoney > 0) {
+//                    System.out.println("Dealer won!");
+//                    blackjackDealer.addMoney(dealerMoney);
+////                        System.out.println("Current dealer balance: " + blackJackPlayers.get(0).getMoney());
+//                }
+            }
+        }
     }
 }

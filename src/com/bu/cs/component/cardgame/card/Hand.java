@@ -10,6 +10,8 @@ public class Hand {
     private List<Card> cards;
     private int bet;//each hand can have a bet
     private boolean won = false;//each hand can win or lose and used to add/deduct money form player
+    private boolean isStand;
+    private boolean isBust;
 
     public Hand() {
         cards = new ArrayList<>();
@@ -20,6 +22,22 @@ public class Hand {
         addCard(new_card);
         setBet(betvalue);
     }
+    public boolean isStand() {
+        return isStand;
+    }
+
+    public void setStand(boolean stand) {
+        isStand = stand;
+    }
+
+    public boolean isBust() {
+        return isBust;
+    }
+
+    public void setBust(boolean bust) {
+        isBust = bust;
+    }
+
 
     public List<Card> getCards() {
         return cards;
