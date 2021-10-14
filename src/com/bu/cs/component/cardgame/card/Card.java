@@ -51,7 +51,6 @@ public class Card implements Comparable<Card>{
 
 	@Override
 	public int compareTo(Card o) {
-		// TODO Auto-generated method stub
 		if(cardValue.equals(o.getCardValue()))
 			return 1;
 		else

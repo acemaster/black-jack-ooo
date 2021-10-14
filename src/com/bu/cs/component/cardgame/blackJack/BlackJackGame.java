@@ -37,6 +37,7 @@ public class BlackJackGame extends CardGame {
 
     @Override
     public boolean isGameComplete(int playerIndex) {
+        //Todo: Replace with isBlackJack
         List<Hand> hands = this.cardPlayers.get(playerIndex).getHands();
         for(Hand hand: hands){
             if(hand.currentHand() == this.cardGameConfig.getWinCondition())
@@ -48,6 +49,7 @@ public class BlackJackGame extends CardGame {
     }
 
     public void dealInitialCards(){
+        //Todo: Use dealer to get the cards
         cardPlayers.get(0).hit(decks, false);
         cardPlayers.get(0).hit(decks, false);
         for(int i=1;i<cardPlayers.get(1).getHands().size();i++) {
