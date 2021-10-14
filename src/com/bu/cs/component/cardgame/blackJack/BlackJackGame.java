@@ -4,6 +4,7 @@ import com.bu.cs.component.Player;
 import com.bu.cs.component.cardgame.CardGame;
 import com.bu.cs.component.cardgame.card.Card;
 import com.bu.cs.component.cardgame.card.Hand;
+import com.bu.cs.helper.GameConstants;
 import com.bu.cs.helper.GameFunctions;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.Scanner;
 
 public class BlackJackGame extends CardGame {
 
-    private List<BlackJackPlayer> cardPlayers;
+    private List<BlackJackPlayer> blackJackPlayers;
     private BlackjackDealer blackjackDealer;
 
     @Override
@@ -26,7 +27,7 @@ public class BlackJackGame extends CardGame {
     }
 
     public  boolean isNaturalBlackJack(int playerIndex){
-        List<Hand> hands = this.cardPlayers.get(playerIndex).getHands();
+        List<Hand> hands = this.blackJackPlayers.get(playerIndex).getHands();
         for(Hand hand: hands){
             if(hand.currentHand() == this.cardGameConfig.getWinCondition())
                 return true;
@@ -36,18 +37,18 @@ public class BlackJackGame extends CardGame {
 
     @Override
     public boolean isGameComplete(int playerIndex) {
-        List<Hand> hands = this.cardPlayers.get(playerIndex).getHands();
+        List<Hand> hands = this.blackJackPlayers.get(playerIndex).getHands();
         for(Hand hand: hands){
             if(hand.currentHand() == this.cardGameConfig.getWinCondition())
                 return true;
-            if(hand.currentHand() > this.cardPlayers.get(playerIndex).getHands().get(0).currentHand())
+            if(hand.currentHand() > this.blackJackPlayers.get(playerIndex).getHands().get(0).currentHand())
                 return true;
         }
         return false;
     }
 
     public void dealAndBet(Scanner scanner){
-        for(BlackJackPlayer blackJackPlayer:cardPlayers) {
+        for(BlackJackPlayer blackJackPlayer: blackJackPlayers) {
             blackJackPlayer.setMoney(GameFunctions.safeScanInt(scanner,"Please enter the initial money you want to convert to chips: "));
             for(Hand hand: blackJackPlayer.getHands()){
                 hand.setBet(GameFunctions.safeScanInt(scanner,"Please place initial bet: "));
@@ -59,14 +60,14 @@ public class BlackJackGame extends CardGame {
     }
 
     public void resetGame(){
-        for(BlackJackPlayer blackJackPlayer:cardPlayers) {
+        for(BlackJackPlayer blackJackPlayer: blackJackPlayers) {
             blackJackPlayer.resetPlayer();
         }
         blackjackDealer.resetHand();
     }
 
     public boolean isRemainingPlayers() {
-        for(BlackJackPlayer blackJackPlayer: cardPlayers) {
+        for(BlackJackPlayer blackJackPlayer: blackJackPlayers) {
             if(blackJackPlayer.getMoney() > 0 && !blackJackPlayer.isStand() && !blackJackPlayer.isBust()) {
                 return true;
             }
@@ -78,15 +79,15 @@ public class BlackJackGame extends CardGame {
     public void startGame() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to the game of BlackJack!!");
-        initializeGame(scanner,1);
+        initializeGame(scanner, GameConstants.BLACK_JACK_PLAYERS);
         while(true){ // new game
             //Initialize the game with all the details
             dealAndBet(scanner);
-            System.out.println(cardPlayers.size());
+            System.out.println(blackJackPlayers.size());
             int playerIndex = 0;
-            int currentBet = cardPlayers.get(playerIndex).getHands().get(0).getBet();
+            int currentBet = blackJackPlayers.get(playerIndex).getHands().get(0).getBet();
             while(isRemainingPlayers()){
-                BlackJackPlayer currentPlayer = cardPlayers.get(0); //Todo: Use this instead of currentPlayer
+                BlackJackPlayer currentPlayer = blackJackPlayers.get(0); //Todo: Use this instead of currentPlayer
                 //Skips the players who have no remaining money
                 if(currentPlayer.getMoney() <= 0 || currentPlayer.isBust() || currentPlayer.isStand()) {
                     continue;
@@ -138,7 +139,8 @@ public class BlackJackGame extends CardGame {
                     }
                 }
                 if(currentPlayer.isStand()){
-                    //Todo: Separate out as function and
+                    //Todo: Sep
+                int flag = 0;
                     System.out.println("Initial dealer hand value: " + currentPlayer.getHands().get(0).currentHand());
                     while(currentPlayer.getHands().get(0).currentHand() <= 17){
                         currentPlayer.hit(decks, false);
@@ -149,8 +151,8 @@ public class BlackJackGame extends CardGame {
                     for(Hand hand: hands){
                         if(hand.currentHand() > currentPlayer.getHands().get(0).currentHand()) {
                             System.out.println("Hand won");
-                            cardPlayers.get(1).addMoney(currentBet * 2);
-                            System.out.println("Current balance: " + cardPlayers.get(1).getMoney());
+                            blackJackPlayers.get(1).addMoney(currentBet * 2);
+                            System.out.println("Current balance: " + blackJackPlayers.get(1).getMoney());
                         }
                         else{
                             dealerMoney += currentBet;
@@ -159,12 +161,12 @@ public class BlackJackGame extends CardGame {
                     if(dealerMoney > 0){
                         System.out.println("Dealer won!");
                         blackjackDealer.addMoney(dealerMoney);
-//                        System.out.println("Current dealer balance: " + cardPlayers.get(0).getMoney());
+//                        System.out.println("Current dealer balance: " + blackJackPlayers.get(0).getMoney());
                     }
 //                    if(isGameComplete(0)){
 //                        System.out.println("Dealer won!");
 //                        //todo add logic to add and remove money
-//                        cardPlayers.get(1).addMoney(currentBet);
+//                        blackJackPlayers.get(1).addMoney(currentBet);
 //                        break;
 //                    }
                 }
@@ -182,25 +184,30 @@ public class BlackJackGame extends CardGame {
 
     private void initializeGame(Scanner scanner,int playerCount) {
         scanner = new Scanner(System.in);
-        cardPlayers = new ArrayList<>();
+        blackJackPlayers = new ArrayList<>();
         this.cardGameConfig.setPlayerCount(playerCount);
 //      this.cardGameConfig.setPlayerCount(GameFunctions.safeScanInt(scanner,"Please enter the number of players: "));
         this.cardGameConfig.setNumberOfDecks(GameFunctions.safeScanInt(scanner,"Please enter the number of decks: "));
         this.cardGameConfig.setWinCondition(GameFunctions.safeScanInt(scanner,"Please enter the game win condition: "));
         initializeDeck();
         blackjackDealer = new BlackjackDealer();
-//        cardPlayers.add(blackjackDealer);
+//        blackJackPlayers.add(blackjackDealer);
         for(int i=0;i<this.cardGameConfig.getPlayerCount();i++){
             BlackJackPlayer player = new BlackJackPlayer();
             player.setName(GameFunctions.safeScanString(scanner,"Please enter the name for player " + (i+1) + ": "));
             player.setPlayerId((i));
             System.out.println(player.getHands().size());
-            cardPlayers.add(player);
+            blackJackPlayers.add(player);
         }
     }
 
     @Override
     public Player[] getPlayers() {
         return new Player[0];
+    }
+
+    @Override
+    public void settleRound() {
+
     }
 }
