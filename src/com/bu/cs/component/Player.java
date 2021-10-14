@@ -19,7 +19,7 @@ public abstract class Player {
      * @param playerId
      */
     public Player(int playerId) {
-        this.playerId = playerId;
+        this.setPlayerId(playerId);
         wins = 0;
     }
 
