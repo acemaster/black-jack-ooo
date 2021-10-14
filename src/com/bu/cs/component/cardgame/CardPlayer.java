@@ -45,6 +45,7 @@ public abstract class CardPlayer extends Player {
     }
 
     public void summary() {
+        System.out.println("Player "+ name + " summary: ");
         if(hands.size() == 1) {
             hands.get(0).display();
         }

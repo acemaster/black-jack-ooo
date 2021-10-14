@@ -3,6 +3,7 @@ package com.bu.cs.component.cardgame.card;
 import com.bu.cs.helper.GameConstants;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Hand {
@@ -45,10 +46,14 @@ public class Hand {
 
     public void setCards(List<Card> cards) {
         this.cards = cards;
+        Collections.sort(cards);
+        Collections.reverse(cards);
     }
 
     public void addCard(Card card) {
         cards.add(card);
+        Collections.sort(cards);
+        Collections.reverse(cards);
     }
 
     public void removeCard(Card card) {

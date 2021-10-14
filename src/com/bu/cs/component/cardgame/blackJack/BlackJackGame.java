@@ -42,7 +42,9 @@ public class BlackJackGame extends CardGame {
 
     public void dealAndBet(Scanner scanner){
         for(BlackJackPlayer blackJackPlayer: blackJackPlayers) {
-            blackJackPlayer.setMoney(GameFunctions.safeScanInt(scanner,"Please enter the initial money you want to convert to chips: "));
+            if(blackJackPlayer.getMoney() == 0) {
+                blackJackPlayer.setMoney(GameFunctions.safeScanInt(scanner, "Please enter the initial money you want to convert to chips: "));
+            }
             for(Hand hand: blackJackPlayer.getHands()){
                 hand.setBet(GameFunctions.safeScanInt(scanner,"Please place initial bet: "));
             }
@@ -61,9 +63,10 @@ public class BlackJackGame extends CardGame {
 
     public boolean isRemainingPlayers() {
         for(BlackJackPlayer blackJackPlayer: blackJackPlayers) {
-            for(Hand hand: blackJackPlayer.getHands())
-            if(blackJackPlayer.getMoney() > 0 && !hand.isStand() && !hand.isBust()) {
-                return true;
+            for(Hand hand: blackJackPlayer.getHands()) {
+                if (blackJackPlayer.getMoney() > 0 && !hand.isStand() && !hand.isBust()) {
+                    return true;
+                }
             }
         }
         return false;
@@ -81,7 +84,7 @@ public class BlackJackGame extends CardGame {
             int playerIndex = 0;
             int currentBet = blackJackPlayers.get(playerIndex).getHands().get(0).getBet();
             while(isRemainingPlayers()){
-                BlackJackPlayer currentPlayer = blackJackPlayers.get(0); //Todo: Use this instead of currentPlayer
+                BlackJackPlayer currentPlayer = blackJackPlayers.get(playerIndex); //Todo: Use this instead of currentPlayer
                 //Summary of dealer and current player
                 blackjackDealer.summary();
                 currentPlayer.summary();
@@ -98,9 +101,9 @@ public class BlackJackGame extends CardGame {
                     }
                 }
                 for(int i=0;i<currentPlayer.getHands().size();i++) { // Each hand
-                    while (currentPlayer.getHands().get(i).currentHand() < 21 && !currentPlayer.getHands().get(i).isStand()){
+                    while (currentPlayer.getHands().get(i).currentHand() < 21 && !currentPlayer.getHands().get(i).isStand() ){
                         System.out.println("Current hand value: " + currentPlayer.getHands().get(i).currentHand());
-                        int option = GameFunctions.safeScanIntWithLimit(scanner, "Please enter one of the options:\n1. Hit\n2. Stand\n3. Double", 1, 3);
+                        int option = GameFunctions.safeScanIntWithLimit(scanner, "Player "+currentPlayer.getName()+": Please enter one of the options:\n1. Hit\n2. Stand\n3. Double", 1, 3);
                         switch (option) {
                             case 1:
                                 currentPlayer.hit(decks, i, false);
@@ -114,37 +117,36 @@ public class BlackJackGame extends CardGame {
                                 System.out.println("Current hand value: " + currentPlayer.getHands().get(i).currentHand());
                                 break;
                         }
-                    }
-                    if(currentPlayer.getHands().get(i).currentHand() > 21){ //Bust
-                        System.out.println("Hand " + (i+1) + " bust");
-                        currentPlayer.getHands().get(i).setBust(true);
+                        currentPlayer.summary();
+                        if(currentPlayer.getHands().get(i).currentHand() > 21){ //Bust
+                            System.out.println("Hand " + (i+1) + " bust");
+                            currentPlayer.getHands().get(i).setBust(true);
 //                        currentPlayer.removeMoney(currentBet);
 //                        System.out.println("Current balance: " + currentPlayer.getMoney());
+                        }
                     }
                 }
-                resetGame();
                 playerIndex = (playerIndex + 1)%cardGameConfig.getPlayerCount();
 
             }
             settleRound();
-
-
-//                System.out.println("Do you want to continue?");
+            scanner.nextLine();
             if(!GameFunctions.safeScanString(scanner, "Do you want to continue?(Y/N)").equalsIgnoreCase("Y")){
                 System.out.println("Thanks for playing!");
                 break;
             }
+            resetGame();
         }
     }
 
     private void initializeGame(Scanner scanner,int playerCount) {
-        scanner = new Scanner(System.in);
         blackJackPlayers = new ArrayList<>();
         this.cardGameConfig.setPlayerCount(playerCount);
 //      this.cardGameConfig.setPlayerCount(GameFunctions.safeScanInt(scanner,"Please enter the number of players: "));
         this.cardGameConfig.setNumberOfDecks(GameFunctions.safeScanInt(scanner,"Please enter the number of decks: "));
         this.cardGameConfig.setWinCondition(GameFunctions.safeScanInt(scanner,"Please enter the game win condition: "));
         initializeDeck();
+        scanner.nextLine();
         blackjackDealer = new BlackjackDealer();
 //        blackJackPlayers.add(blackjackDealer);
         for(int i=0;i<this.cardGameConfig.getPlayerCount();i++){
@@ -163,6 +165,8 @@ public class BlackJackGame extends CardGame {
 
     @Override
     public void settleRound() {
+        System.out.println("Dealer summary");
+        blackjackDealer.summary();
         System.out.println("Initial dealer hand value: " + blackjackDealer.getHands().get(0).currentHand());
         while (blackjackDealer.getHands().get(0).currentHand() <= blackjackDealer.getMinValue()) {
             blackjackDealer.hit(decks, false);
@@ -184,10 +188,11 @@ public class BlackJackGame extends CardGame {
                     System.out.println("Current balance: " + currentPlayer.getMoney());
                     continue;
                 }
-                if (blackjackDealer.getHands().get(0).currentHand() > currentPlayer.getHands().get(0).currentHand()) {
+                if (blackjackDealer.getHands().get(0).currentHand() < currentPlayer.getHands().get(0).currentHand()) {
+                    //For player win
                     System.out.println(currentPlayer.getName() + " Hand" + (i+1) + " won!");
                     currentPlayer.addMoney(currentBet);
-                    System.out.println("Current balance: " + blackJackPlayers.get(1).getMoney());
+                    System.out.println("Current balance: " + currentPlayer.getMoney());
                 } else {
                     blackjackDealer.addMoney(currentBet);
                 }
