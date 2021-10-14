@@ -73,6 +73,29 @@ public class GameFunctions {
     }
 
     /**
+     * Get the next input parameter while having safety checks
+     * @param scanner
+     * @param message
+     * @return
+     */
+    public static String safeScanString(Scanner scanner,String message) {
+        boolean invalidInput = false;
+        String retValue = "";
+        do {
+            try {
+                System.out.print(message);
+                retValue = scanner.nextLine();
+                invalidInput = false;
+            }catch (Exception e) {
+                System.out.println("Invalid input. Please try again.....");
+                scanner.next();
+                invalidInput = true;
+            }
+        }while (invalidInput);
+        return retValue;
+    }
+
+    /**
      * Get the next input int parameter while having safety checks and with limits
      * @param scanner
      * @param message

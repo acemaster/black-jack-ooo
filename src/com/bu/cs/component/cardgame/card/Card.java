@@ -22,7 +22,9 @@ public class Card implements Comparable<Card>{
         this.isFaceDown = isFaceDown;
     }
 
-
+    public boolean equals(Card card){
+        return (this.getCardValue() == card.getCardValue() && this.getSuit() == card.getSuit());
+    }
     public Suit getSuit() {
         return suit;
     }

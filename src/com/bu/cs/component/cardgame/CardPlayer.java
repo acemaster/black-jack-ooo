@@ -74,17 +74,21 @@ public abstract class CardPlayer extends Player {
         this.money = this.money - value;
     }
 
-    public void hit(Decks decks,int handIndex) {
+    public void hit(Decks decks,int handIndex, boolean facedown) {
         try {
-            hands.get(handIndex).addCard(decks.getRandomCard());
+            Card card = decks.getRandomCard();
+            card.setFaceDown(facedown);
+            hands.get(handIndex).addCard(card);
         } catch (NoDeckException e) {
             System.out.println("No card in the deck. Hit has failed");
         }
     }
 
-    public void hit(Decks decks) {
+    public void hit(Decks decks, boolean facedown) {
         try {
-            hands.get(0).addCard(decks.getRandomCard());
+            Card card = decks.getRandomCard();
+            card.setFaceDown(facedown);
+            hands.get(0).addCard(card);
         } catch (NoDeckException e) {
             System.out.println("No card in the deck. Hit has failed");
         }

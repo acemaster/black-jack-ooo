@@ -42,6 +42,12 @@ public class Hand {
     public int currentHand() {
         int sum = 0;
         for(Card card:cards) {
+            if(card.getCardValue() == CardValue.ACE){
+                if(sum + card.getCardValue().getAltValue() <= 21) {
+                    sum += card.getCardValue().getAltValue();
+                    continue;
+                }
+            }
             sum += card.getCardValue().getValue();
         }
         return sum;
