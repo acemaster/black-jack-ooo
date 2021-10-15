@@ -1,5 +1,5 @@
 -----
-Team
+##Team
 ####Name: Vivek Unnikrishnan BUID: U53408550
 ####Name: Bhagyasri Kota BUID: U63334155
 ####Name: Sahana Subramanya Kowshik BUID: U43929102
@@ -18,28 +18,28 @@ This is an arcade program which has 2 games.
 5. Player: Represents the player. Stores the name, playerId and the wins for each player.
 
 **com.bu.cs.component.cardgame**
-1. CardGame: 
+1. CardGame: Abstract class which is used for both the games
 2. CardGameConfig: Configuration for the card game. This includes player count, win condition and number of decks.
-3. CardPlayer
-4. Dealer
+3. CardPlayer: Abstract class used for other players
+4. Dealer: Class with basic dealer functions
 
 **com.bu.cs.component.cardgame.card**
-1. Card
-2. CardValue
-3. Deck
-4. Decks
-5. Hand
-6. Suit
+1. Card: Contains the card definition with suit and card value objects
+2. CardValue: Enum Used to define the value of the card
+3. Deck: Used to store list of cards
+4. Decks: Used to store list of decks
+5. Hand: Used to represent the list of cards with players/Dealers
+6. Suit: Used to represent the suit of the card
 
 **com.bu.cs.component.cardgame.blackJack**
-1. BlackJackDealer
-2. BlackJackPlayer
-3. BlackJackGame
+1. BlackJackDealer: Defines the black jack dealer functions
+2. BlackJackPlayer: Defines the black jack player functions
+3. BlackJackGame: Defines the black jack game logic
 
 **com.bu.cs.component.cardgame.trianta**
-1. TriantaDealer
-2. TriantaPlayer
-3. TriantaGame
+1. TriantaDealer: Defines the Trianta dealer functions
+2. TriantaPlayer: Defines the Trianta player functions
+3. TriantaGame: Defines the Trianta game logic
 
 **com.bu.cs.helper**
 1. GameFunctions: Contains the functions that are used to drive the game. This includes getting player turns, printing the board and checking win conditions.
@@ -47,54 +47,29 @@ This is an arcade program which has 2 games.
 
 **com.bu.cs.Main**: Main program that runs the Arcade.
 
-###Board format
-
-Sample 3 x 3 board
-
-|0,0|0,1|0,2|
-|---|---|---|
-|1,0|1,1|1,2|
-|2,0|2,1|2,2|
-
 ###How to play
 1. Once extracted run the follow commands in the extracted directory:
     1. cd out/production/ticTacToe
     2. java com.bu.cs.Main
 2. Select the game by entering the option number
-3. **Tic Tac Toe**: This is the orginal 3*3 version with 2 players
-    1. Enter name of player 1
-    2. Enter name of player 2
-    3. For each player enter the corresponding cell number (Based on the board above)
-    4. If the move is valid, the turn goes to the next player and the updated board is shown
-    5. Once the game is over, a prompt to play a next game or exit is shown
+3. **Black Jack**: This is the orginal black jack
+    1. Enter the number of players
+    2. Enter the number of decks for the game
+    3. Enter the details for each player, including money and bet amount
+    4. Cards are dealt and the player can select if he needs to hit,stand,split or double down.
+    5. Once the game is over, a summary is shown and a prompt to play a next game or exit is shown
+    6. Once all the games are done, a prompt is shown for the game exit
+4. **Trianta**: This is a variant of black jack
+    1. Enter the number of players
+    2. Enter the starting amount for each player
+    3. Cards are dealt and the player can select if he needs to hit or stand. 
+    4. Once the game is over, a summary is shown and a prompt to play a next game or exit is shown
+    5. Once all the games are done, a prompt is shown for the game exit
     6. Once all the games are done a summary of the session is shown and the program exits
-4. **Custom Tic Tac Toe**: This is the custom tic-tac-toe with any size board, any number of teams and players with CPU players as well
-    1. Enter the size of the board (it is a square board)
-    2. Enter the number of human players
-    3. Enter the number of CPU players
-    4. Enter the number of teams (players are auto divided into the team)
-    5. Enter the details of the teams
-    6. Enter the details of the human players
-    7. For each player enter the corresponding cell number (Based on the board above)
-    8. If the move is valid, the turn goes to the next player and the updated board is shown
-    9. Once the game is over, a prompt to play a next game or exit is shown
-    10. Once all the games are done a summary of the session is shown and the program exits
-5. **Order and Chaos**: Order and Chaos game with 6*6 board and 2 players
-    1. Enter the name of the player 1
-    2. Enter the name of the player 2
-    3. For each player enter the symbol x or o they want to play
-    4. For each player enter the corresponding cell number (Based on the board above)
-    5. If the move is valid, the turn goes to the next player and the updated board is shown
-    6. Once the game is over, a prompt to play a next game or exit is shown
-    7. Once all the games are done a summary of the session is shown and the program exits
 
 ###Bonus Features
-1. Name of the players are added for more personal prompts
-2. Custom Tic tac toe has the following features
-    1. Custom board size
-    2. Custom number of teams
-    3. Can play against CPU players (can even have one on your team)
-    4. Current limits for the players,board and teams are being set in GameConstants but it can be changed and recompiled if needed (Maximum is 50 rows/columns and 50 players)
+1. Cards are shown with colored text for diamonds and hearts
+2. Black jack can be played with any number of players. Limits are defined in Game constants
 
 ###Compile and run
 **Extract the zip file into a folder.

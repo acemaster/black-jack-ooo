@@ -130,11 +130,37 @@ public class BlackJackGame extends CardGame {
             settleRound();
             scanner.nextLine();
             summary();
-            if(!GameFunctions.safeScanString(scanner, "Do you want to continue?(Y/N)").equalsIgnoreCase("Y")){
-                System.out.println("Thanks for playing!");
+            if(cashOutPlayers(scanner)) {
                 break;
             }
             resetGame();
+        }
+    }
+
+    private boolean cashOutPlayers(Scanner scanner) {
+        if(this.cardGameConfig.getPlayerCount() > 1) {
+            List<Integer> cashOutIndex = new ArrayList<>();
+            for(int i=0;i<cardGameConfig.getPlayerCount();i++) {
+                BlackJackPlayer player = blackJackPlayers.get(i);
+                if(GameFunctions.safeScanString(scanner, String.format("%s: Do you want to cash out? (Y/N): ",player.getName())).equalsIgnoreCase("Y")) {
+                    cashOutIndex.add(i);
+                }
+            }
+            int newPlayerCount = this.cardGameConfig.getPlayerCount() - cashOutIndex.size();
+            for(Integer index:cashOutIndex) {
+                blackJackPlayers.remove((int)index);
+            }
+            if(newPlayerCount == 0) {
+                return true;
+            }
+            this.cardGameConfig.setPlayerCount(newPlayerCount);
+            return false;
+        } else {
+            if(!GameFunctions.safeScanString(scanner, "Do you want to continue? (Y/N): ").equalsIgnoreCase("Y")){
+                System.out.println("Thanks for playing!");
+                return true;
+            }
+            return false;
         }
     }
 
@@ -186,7 +212,6 @@ public class BlackJackGame extends CardGame {
         blackJackPlayers = new ArrayList<>();
         this.cardGameConfig.setPlayerCount(GameFunctions.safeScanIntWithLimit(scanner,String.format("Please enter the number of players between 1 and %d: ", GameConstants.BLACK_JACK_MAX_PLAYERS), 1, GameConstants.BLACK_JACK_MAX_PLAYERS));
         this.cardGameConfig.setNumberOfDecks(GameFunctions.safeScanIntWithLimit(scanner,String.format("Please enter the number of decks between 1 and %d: ", GameConstants.BLACK_JACK_MAX_DECKS), 1, GameConstants.BLACK_JACK_MAX_DECKS));
-//        this.cardGameConfig.setWinCondition(GameFunctions.safeScanInt(scanner,"Please enter the game win condition: "));
         this.cardGameConfig.setWinCondition(GameConstants.BLACK_JACK_WIN_CONDITION);
         initializeDeck();
         scanner.nextLine();
