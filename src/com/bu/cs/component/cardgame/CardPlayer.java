@@ -28,6 +28,10 @@ public abstract class CardPlayer extends Player {
         this.hands = hands;
     }
 
+    public void addHand(Hand hand) {
+        this.hands.add(hand);
+    }
+
     public void addCard(Card card, int handIndex) {
         hands.get(handIndex).addCard(card);
     }
@@ -44,18 +48,26 @@ public abstract class CardPlayer extends Player {
         hands.get(0).removeCard(card);
     }
 
-    public void summary() {
-        System.out.println("Player "+ name + " summary: ");
-        if(hands.size() == 1) {
+    public void summary(boolean showHand) {
+        System.out.println(name + " summary: ");
+        if (hands.size() == 1) {
             hands.get(0).display();
-        }
-        else {
-            for(int i=0;i<hands.size();i++) {
-                System.out.println("Hand "+(i+1));
+            if(showHand) {
+                System.out.printf("%s Hand %d current Hand: %d %n", name, 1, hands.get(0).currentHand());
+            }
+        } else {
+            for (int i = 0; i < hands.size(); i++) {
+                System.out.println("Hand " + (i + 1));
                 hands.get(i).display();
+                if(showHand) {
+                    System.out.printf("%s Hand %d current Hand: %d %n", name, (i + 1), hands.get(i).currentHand());
+                }
             }
         }
-        System.out.println("Total money: "+money);
+    }
+
+    public void summary() {
+        summary(true);
     }
 
     public int getMoney() {
@@ -76,6 +88,7 @@ public abstract class CardPlayer extends Player {
 
     public void hit(Decks decks,int handIndex, boolean facedown) {
         Card card = decks.getRandomCard();
+        System.out.printf("%s has got %s of %ss %n",name,card.getCardValue().toString(),card.getSuit().toString());
         card.setFaceDown(facedown);
         hands.get(handIndex).addCard(card);
     }
