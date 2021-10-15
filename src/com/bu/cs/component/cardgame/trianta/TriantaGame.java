@@ -1,14 +1,14 @@
 package com.bu.cs.component.cardgame.trianta;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
-
 import com.bu.cs.component.Player;
 import com.bu.cs.component.cardgame.CardGame;
 import com.bu.cs.component.cardgame.card.CardValue;
 import com.bu.cs.helper.GameFunctions;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * Trianta Game
