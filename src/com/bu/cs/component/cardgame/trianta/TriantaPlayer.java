@@ -3,6 +3,9 @@ package com.bu.cs.component.cardgame.trianta;
 import com.bu.cs.component.cardgame.CardPlayer;
 import com.bu.cs.component.cardgame.card.Decks;
 
+/**
+ * Check the trianta player
+ */
 public class TriantaPlayer extends CardPlayer implements Comparable<TriantaPlayer>{
 	private boolean isDealer = false;
 	private boolean isfold = false;

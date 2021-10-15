@@ -7,81 +7,100 @@ import java.util.Scanner;
 
 import com.bu.cs.component.Player;
 import com.bu.cs.component.cardgame.CardGame;
-import com.bu.cs.component.cardgame.Dealer;
-import com.bu.cs.component.cardgame.blackJack.BlackJackPlayer;
-import com.bu.cs.component.cardgame.blackJack.BlackjackDealer;
-import com.bu.cs.component.cardgame.card.Hand;
-import com.bu.cs.component.cardgame.card.Card;
 import com.bu.cs.component.cardgame.card.CardValue;
-import com.bu.cs.component.cardgame.card.Decks;
 import com.bu.cs.helper.GameFunctions;
 
+/**
+ * Trianta Game
+ */
 public class TriantaGame extends CardGame {
-	private List<TriantaPlayer> triantaplayers;
+
+	private List<TriantaPlayer> triantaPlayers;
 	private TriantaDealer gameDealer;
 	private int dealerIndex;
+
+	/**
+	 * Get the name of the game
+	 * @return
+	 */
     @Override
     public String getName() {
         return "Trianta Enta";
     }
 
+	/**
+	 * Summary of the game
+	 */
     @Override
     public void summary() {//to add properly
-    	for(TriantaPlayer currPlayer:triantaplayers) {
+    	for(TriantaPlayer currPlayer: triantaPlayers) {
     		System.out.println(currPlayer.getName()+" won "+currPlayer.getWins()+" games\nCurrent balance: "+currPlayer.getMoney());
     	}
-    } 
-    
-    //check
+    }
+
+
+	/**
+	 * Check the game is complete
+	 * @param playerIndex
+	 * @return
+	 */
 	@Override
 	public boolean isGameComplete(int playerIndex) {
-		// TODO Auto-generated method stub	
 		int handIndex = 0;
-		if (triantaplayers.get(playerIndex).getHands().get(handIndex).isWon()) {
-			System.out.println(triantaplayers.get(playerIndex).getName()+" has a natural Trianta Ena.\n"+triantaplayers.get(playerIndex).getName()+" wins!!!");
+		if (triantaPlayers.get(playerIndex).getHands().get(handIndex).isWon()) {
+			System.out.println(triantaPlayers.get(playerIndex).getName()+" has a natural Trianta Ena.\n"+ triantaPlayers.get(playerIndex).getName()+" wins!!!");
 		}
 		else if(gameDealer.isBust()) {
-			if(!triantaplayers.get(playerIndex).getHands().get(0).isBust()) {
-				triantaplayers.get(playerIndex).getHands().get(handIndex).setWon(true);	
-				System.out.println(triantaplayers.get(playerIndex).getName()+" wins");
+			if(!triantaPlayers.get(playerIndex).getHands().get(0).isBust()) {
+				triantaPlayers.get(playerIndex).getHands().get(handIndex).setWon(true);
+				System.out.println(triantaPlayers.get(playerIndex).getName()+" wins");
 			}			
 		}
 		else {
-			 if(triantaplayers.get(playerIndex).getHands().get(handIndex).currentHand() > gameDealer.getHands().get(0).currentHand()) {
-				triantaplayers.get(playerIndex).getHands().get(handIndex).setWon(true);
-				System.out.println(triantaplayers.get(playerIndex).getName()+" wins");
+			 if(triantaPlayers.get(playerIndex).getHands().get(handIndex).currentHand() > gameDealer.getHands().get(0).currentHand()) {
+				triantaPlayers.get(playerIndex).getHands().get(handIndex).setWon(true);
+				System.out.println(triantaPlayers.get(playerIndex).getName()+" wins");
 			}
 		}
-		return triantaplayers.get(playerIndex).getHands().get(handIndex).isWon();
+		return triantaPlayers.get(playerIndex).getHands().get(handIndex).isWon();
 	}
-	
-	//Method to check for a natural Trianta Ena
+
+	/**
+	 * Check if it is a natural trianta
+	 * @param playerIndex
+	 * @return
+	 */
     public boolean isTrianta(int playerIndex) {
     	int handIndex = 0;
     	List<CardValue> playerCardValues = new ArrayList<>();
-    	for(int i=0; i<triantaplayers.get(handIndex).getHands().get(handIndex).getCards().size(); i++) {
-    		playerCardValues.add(triantaplayers.get(handIndex).getHands().get(handIndex).getCards().get(i).getCardValue());
+    	for(int i = 0; i< triantaPlayers.get(handIndex).getHands().get(handIndex).getCards().size(); i++) {
+    		playerCardValues.add(triantaPlayers.get(handIndex).getHands().get(handIndex).getCards().get(i).getCardValue());
     	}
     	int aceOccurences = Collections.frequency(playerCardValues, CardValue.ACE);
     	int kingOccurences = Collections.frequency(playerCardValues, CardValue.KING);
     	int queenOccurences = Collections.frequency(playerCardValues, CardValue.QUEEN);
     	int jackOccurences = Collections.frequency(playerCardValues, CardValue.JACK);
     	if(aceOccurences == 1 && kingOccurences+queenOccurences+jackOccurences == 2)
-    		triantaplayers.get(playerIndex).getHands().get(handIndex).setWon(true);
-        return triantaplayers.get(playerIndex).getHands().get(handIndex).isWon();
+    		triantaPlayers.get(playerIndex).getHands().get(handIndex).setWon(true);
+        return triantaPlayers.get(playerIndex).getHands().get(handIndex).isWon();
     }
-    
-    public void isPlayerBust(int playerIndex) {
-    	if(triantaplayers.get(playerIndex).getHands().get(0).currentHand() > this.cardGameConfig.getWinCondition()) {
-    		triantaplayers.get(playerIndex).getHands().get(0).setBust(true);
-    		triantaplayers.get(playerIndex).getHands().get(0).display();
+
+	/**
+	 * Check if the player has bust
+	 * @param playerIndex
+	 */
+	public void isPlayerBust(int playerIndex) {
+    	if(triantaPlayers.get(playerIndex).getHands().get(0).currentHand() > this.cardGameConfig.getWinCondition()) {
+    		triantaPlayers.get(playerIndex).getHands().get(0).setBust(true);
+    		triantaPlayers.get(playerIndex).getHands().get(0).display();
     		System.out.println("Busted!! Try your luck in the next round");
     	}
     }
-    
-    
 
-    @Override
+	/**
+	 * Start the game
+	 */
+	@Override
     public void startGame() {
     	try {
 	    	System.out.println("Welcome to the Trianta");
@@ -90,110 +109,13 @@ public class TriantaGame extends CardGame {
 	        int playerMoney = GameFunctions.safeScanInt(scanner,"Enter the amount each player would like to start with: ");
 	        scanner.nextLine();
 	        System.out.println("Dealer starts with $"+playerMoney*3);
-	        System.out.println("Please select a dealer from the list of players: ");
-            for (int i = 0; i < triantaplayers.size(); i++) {
-                System.out.printf("%d. %s %n",i + 1,triantaplayers.get(i).getName());                
-            }
-            dealerIndex = GameFunctions.safeScanInt(scanner,"Enter option: ")-1;
-            scanner.nextLine();
-            //gameDealer = (TriantaDealer)cardPlayers.get(dealerIndex);
-            gameDealer.setName(cardPlayers.get(dealerIndex).getName());
-            triantaplayers.get(dealerIndex).setDealer(true);
-            gameDealer.addMoney(playerMoney*3);
-            for (int i = 0; i < triantaplayers.size(); i++) {
-            	if(i == dealerIndex) continue;
-            	triantaplayers.get(i).addMoney(playerMoney);
-            }
-	        //Each player gets a card including dealer
+			selectDealer(scanner, playerMoney);
+			//Each player gets a card including dealer
             boolean isEndGame = false;
             while(!isEndGame) {
                 System.out.println("Let's play!!");
-    	        for(TriantaPlayer currPlayer:triantaplayers) {
-    	        	if(currPlayer.isDealer() == false)
-        	        	currPlayer.addCard(gameDealer.dealPlayer(decks, false));
-    	        }
-    	        gameDealer.addCard(gameDealer.dealPlayer(decks, false));
-    	        
-    	        
-    	        //Display the dealer and players hand to let him choose either fold or bet
-    	        for(TriantaPlayer currPlayer:triantaplayers) {
-    	        	if(currPlayer.isDealer() == false) {
-    	        		System.out.println("Dealer's hand");
-    	        		gameDealer.getHands().get(0).display();
-    	        		System.out.println(currPlayer.getName()+", your hand");
-    		        	currPlayer.getHands().get(0).display();
-    		        	System.out.println(currPlayer.getName()+", Choose the action you would like to take\n1.Fold\n2.Bet");
-    		        	int playerOption = GameFunctions.safeScanInt(scanner,"Enter option: ");
-    		        	if(playerOption == 2) {
-    		        		int playerBet = GameFunctions.safeScanInt(scanner,"Enter amount you would like to bet: ");
-    		        		currPlayer.getHands().get(0).setBet(playerBet);
-    		        	}
-    		        	else {
-    		        		currPlayer.setIsfold(true);
-    		        		System.out.println(currPlayer.getName()+", chose to fold");
-    		        	}
-    	        	}
-    	        }
-    	        //Once the players bet deals two more cards and check if its a natural Trianta Ena and wait for dealers hand
-    	        for(TriantaPlayer currPlayer:triantaplayers) {
-    	        	if(currPlayer.isfold() == false && currPlayer.isDealer() == false) {
-    	        		//System.out.println(currPlayer.getName()+", here are your cards");
-    	        		currPlayer.addCard(gameDealer.dealPlayer(decks, false));
-    	        		currPlayer.addCard(gameDealer.dealPlayer(decks, false));
-    	        		//currPlayer.getHands().get(0).display();
-    	        		if(isTrianta(triantaplayers.indexOf(currPlayer))) {
-    	        			currPlayer.getHands().get(0).setWon(true);
-    	        			currPlayer.getHands().get(0).display();
-    	        			System.out.println(currPlayer.getName()+", you have a natural Trianta Ena. Let's see what the dealer has.");
-    	        		}	        			
-    		        	else
-    		        		isPlayerBust(triantaplayers.indexOf(currPlayer));		        		
-    	        		}
-    	        	}
-    	        //Each player can either chose hit till bust or stand
-    	        for(TriantaPlayer currPlayer:triantaplayers) {
-    	        	while((currPlayer.getHands().get(0).isBust() == false && currPlayer.getHands().get(0).isStand() == false) && currPlayer.isfold() == false && currPlayer.getHands().get(0).isWon() == false && currPlayer.isDealer() == false) {
-    	        		currPlayer.getHands().get(0).display();
-    	        		System.out.println(currPlayer.getName()+",choose the action you would like to take\n1.Hit\n2.Stand");
-    		        	int playerOption = GameFunctions.safeScanInt(scanner,"Enter option: ");	
-    		        	if(playerOption == 1) {
-    		        		currPlayer.hit(decks, false);
-    		        		isPlayerBust(triantaplayers.indexOf(currPlayer));	
-    		        	}
-    		        	else
-    		        		currPlayer.getHands().get(0).setStand(true);
-        			}//while
-    	        }//for
-    	        //after players are done, dealer plays until his mincount and check for a natural Trianta Ena
-    	        gameDealer.addCard(gameDealer.dealPlayer(decks, false));
-    	        gameDealer.addCard(gameDealer.dealPlayer(decks, false));
-    	        System.out.println("Dealer's hand");
-    	        gameDealer.getHands().get(0).display();
-    	        if(isTrianta(dealerIndex) == true) {
-    	        	gameDealer.getHands().get(0).setWon(true);
-    	        }
-    	        while(gameDealer.getHands().get(0).currentHand() < gameDealer.getMinvalue() && gameDealer.isBust() == false && gameDealer.getHands().get(0).isWon() == false) {
-    	        	triantaplayers.get(dealerIndex).resetHand();//reset and added later to keep in sync
-    	        	gameDealer.addCard(gameDealer.dealPlayer(decks, false));
-    	        	gameDealer.getHands().get(0).display();
-    	        	triantaplayers.get(dealerIndex).addHand(gameDealer.getHands().get(0));//just to check isbust logic based on player class
-    	        	isPlayerBust(dealerIndex);
-    	        }//while
-    	        //check if player won/lose, dealer wins if it is a draw
-    			if((gameDealer.getHands().get(0).isWon() == true)){//if dealer gets a natural Trianta Ena, he win no matter what
-    				System.out.println("Dealer has a natural Trianta Ena.\nDealer wins!!!");
-    				for(TriantaPlayer currPlayer:triantaplayers) {
-    					if(currPlayer.isDealer() == true) continue;
-    					currPlayer.getHands().get(0).setWon(false);
-    				}
-    			}
-    			else {
-    				for(TriantaPlayer currPlayer:triantaplayers) {
-    					if(currPlayer.isDealer() == true) continue;
-        	        	boolean isPlayerwin = isGameComplete(triantaplayers.indexOf(currPlayer));	        		
-        	        }
-    			}
-    	        settleRound();
+				playRound(scanner);
+				settleRound();
     	        isEndGame = endGame();
             }//while    
     	}
@@ -201,9 +123,121 @@ public class TriantaGame extends CardGame {
     		System.out.println(e);
     	}
     }
-    
-    private void initializeGame(Scanner scanner) {
-    	triantaplayers = new ArrayList<>();
+
+	/**
+	 * Select the dealer
+	 * @param scanner
+	 * @param playerMoney
+	 */
+	private void selectDealer(Scanner scanner, int playerMoney) {
+		System.out.println("Please select a dealer from the list of players: ");
+		for (int i = 0; i < triantaPlayers.size(); i++) {
+			System.out.printf("%d. %s %n",i + 1, triantaPlayers.get(i).getName());
+		}
+		dealerIndex = GameFunctions.safeScanInt(scanner,"Enter option: ")-1;
+		scanner.nextLine();
+		gameDealer.setName(cardPlayers.get(dealerIndex).getName());
+		triantaPlayers.get(dealerIndex).setDealer(true);
+		gameDealer.addMoney(playerMoney *3);
+		for (int i = 0; i < triantaPlayers.size(); i++) {
+			if(i == dealerIndex) continue;
+			triantaPlayers.get(i).addMoney(playerMoney);
+		}
+	}
+
+	/**
+	 * Play the round
+	 * @param scanner
+	 */
+	private void playRound(Scanner scanner) {
+		for(TriantaPlayer currPlayer: triantaPlayers) {
+			if(currPlayer.isDealer() == false)
+				currPlayer.addCard(gameDealer.dealPlayer(decks, false));
+		}
+		gameDealer.addCard(gameDealer.dealPlayer(decks, false));
+
+		//Display the dealer and players hand to let him choose either fold or bet
+		for(TriantaPlayer currPlayer: triantaPlayers) {
+			if(currPlayer.isDealer() == false) {
+				System.out.println("Dealer's hand");
+				gameDealer.getHands().get(0).display();
+				System.out.println(currPlayer.getName()+", your hand");
+				currPlayer.getHands().get(0).display();
+				System.out.println(currPlayer.getName()+", Choose the action you would like to take\n1.Fold\n2.Bet");
+				int playerOption = GameFunctions.safeScanInt(scanner,"Enter option: ");
+				if(playerOption == 2) {
+					int playerBet = GameFunctions.safeScanInt(scanner,"Enter amount you would like to bet: ");
+					currPlayer.getHands().get(0).setBet(playerBet);
+				}
+				else {
+					currPlayer.setIsfold(true);
+					System.out.println(currPlayer.getName()+", chose to fold");
+				}
+			}
+		}
+		//Once the players bet deals two more cards and check if its a natural Trianta Ena and wait for dealers hand
+		for(TriantaPlayer currPlayer: triantaPlayers) {
+			if(currPlayer.isfold() == false && currPlayer.isDealer() == false) {
+				//System.out.println(currPlayer.getName()+", here are your cards");
+				currPlayer.addCard(gameDealer.dealPlayer(decks, false));
+				currPlayer.addCard(gameDealer.dealPlayer(decks, false));
+				//currPlayer.getHands().get(0).display();
+				if(isTrianta(triantaPlayers.indexOf(currPlayer))) {
+					currPlayer.getHands().get(0).setWon(true);
+					currPlayer.getHands().get(0).display();
+					System.out.println(currPlayer.getName()+", you have a natural Trianta Ena. Let's see what the dealer has.");
+				}
+				else
+					isPlayerBust(triantaPlayers.indexOf(currPlayer));
+				}
+			}
+		//Each player can either chose hit till bust or stand
+		for(TriantaPlayer currPlayer: triantaPlayers) {
+			while((currPlayer.getHands().get(0).isBust() == false && currPlayer.getHands().get(0).isStand() == false) && currPlayer.isfold() == false && currPlayer.getHands().get(0).isWon() == false && currPlayer.isDealer() == false) {
+				currPlayer.getHands().get(0).display();
+				System.out.println(currPlayer.getName()+",choose the action you would like to take\n1.Hit\n2.Stand");
+				int playerOption = GameFunctions.safeScanInt(scanner,"Enter option: ");
+				if(playerOption == 1) {
+					currPlayer.hit(decks, false);
+					isPlayerBust(triantaPlayers.indexOf(currPlayer));
+				}
+				else
+					currPlayer.getHands().get(0).setStand(true);
+			}//while
+		}//for
+		//after players are done, dealer plays until his mincount and check for a natural Trianta Ena
+		gameDealer.addCard(gameDealer.dealPlayer(decks, false));
+		gameDealer.addCard(gameDealer.dealPlayer(decks, false));
+		System.out.println("Dealer's hand");
+		gameDealer.getHands().get(0).display();
+		if(isTrianta(dealerIndex) == true) {
+			gameDealer.getHands().get(0).setWon(true);
+		}
+		while(gameDealer.getHands().get(0).currentHand() < gameDealer.getMinvalue() && gameDealer.isBust() == false && gameDealer.getHands().get(0).isWon() == false) {
+			triantaPlayers.get(dealerIndex).resetHand();//reset and added later to keep in sync
+			gameDealer.addCard(gameDealer.dealPlayer(decks, false));
+			gameDealer.getHands().get(0).display();
+			triantaPlayers.get(dealerIndex).addHand(gameDealer.getHands().get(0));//just to check isbust logic based on player class
+			isPlayerBust(dealerIndex);
+		}//while
+		//check if player won/lose, dealer wins if it is a draw
+		if((gameDealer.getHands().get(0).isWon() == true)){//if dealer gets a natural Trianta Ena, he win no matter what
+			System.out.println("Dealer has a natural Trianta Ena.\nDealer wins!!!");
+			for(TriantaPlayer currPlayer: triantaPlayers) {
+				if(currPlayer.isDealer() == true) continue;
+				currPlayer.getHands().get(0).setWon(false);
+			}
+		}
+		else {
+			for(TriantaPlayer currPlayer: triantaPlayers) {
+				if(currPlayer.isDealer() == true) continue;
+				boolean isPlayerwin = isGameComplete(triantaPlayers.indexOf(currPlayer));
+			}
+		}
+	}
+
+	private void initializeGame(Scanner scanner) {
+    	triantaPlayers = new ArrayList<>();
         cardPlayers = new ArrayList<>();
         gameDealer = new TriantaDealer ();
         this.cardGameConfig.setPlayerCount(GameFunctions.safeScanInt(scanner,"Please enter the number of players: "));
@@ -216,7 +250,7 @@ public class TriantaGame extends CardGame {
             player.setName(GameFunctions.safeScanString(scanner,"Please enter the name for player " + (i+1) + ": "));
             player.setPlayerId((i));
             cardPlayers.add(player);
-            triantaplayers.add(player);
+            triantaPlayers.add(player);
         }
     }
 
@@ -228,7 +262,7 @@ public class TriantaGame extends CardGame {
 	@Override
 	public void settleRound() {
 		// settle the bet checking if the player won or lost
-		for(TriantaPlayer currPlayer:triantaplayers) {
+		for(TriantaPlayer currPlayer: triantaPlayers) {
 			if(currPlayer.isDealer() != true) {
 				if(currPlayer.getHands().get(0).isWon() == true) {
 					currPlayer.addMoney(currPlayer.getHands().get(0).getBet());
@@ -243,35 +277,39 @@ public class TriantaGame extends CardGame {
 			currPlayer.resetHand();
 		}
 		gameDealer.resetHand();
-		triantaplayers.get(dealerIndex).setMoney(gameDealer.getMoney());//showing dealer wallet as a player
+		triantaPlayers.get(dealerIndex).setMoney(gameDealer.getMoney());//showing dealer wallet as a player
 		summary();//display player summary before asking for dealer change
-		Collections.sort(triantaplayers);
-		Collections.reverse(triantaplayers);//sort in decreasing order of their money
+		Collections.sort(triantaPlayers);
+		Collections.reverse(triantaPlayers);//sort in decreasing order of their money
 
 		Scanner scanner = new Scanner(System.in);
 		boolean dealerSet = false;
 		int playerIndex = 0;
 		while(dealerSet == false) {
-			if(triantaplayers.get(playerIndex).isDealer() == true)
+			if(triantaPlayers.get(playerIndex).isDealer() == true)
 				dealerSet = true;
 			else {
-				String playerAnswer = GameFunctions.safeScanString(scanner,triantaplayers.get(playerIndex).getName()+", Would you like to be the dealer?Y/N:");
+				String playerAnswer = GameFunctions.safeScanString(scanner, triantaPlayers.get(playerIndex).getName()+", Would you like to be the dealer?Y/N:");
 				if(playerAnswer.equalsIgnoreCase("y")) {
-					triantaplayers.get(playerIndex).setDealer(true);
+					triantaPlayers.get(playerIndex).setDealer(true);
 					dealerSet = true;
-					triantaplayers.get(dealerIndex).setDealer(false);
+					triantaPlayers.get(dealerIndex).setDealer(false);
 					dealerIndex = playerIndex;
 					gameDealer.setName(cardPlayers.get(dealerIndex).getName());
-					gameDealer.setMoney(triantaplayers.get(playerIndex).getMoney());
+					gameDealer.setMoney(triantaPlayers.get(playerIndex).getMoney());
 				}
 				else
 					playerIndex++;
 			}
-		}//while
+		}
 	}
-	
+
+	/**
+	 * End the game
+	 * @return
+	 */
 	public boolean endGame() {
-		for(TriantaPlayer currPlayer:triantaplayers) {
+		for(TriantaPlayer currPlayer: triantaPlayers) {
 			if(currPlayer.getMoney()<=0) {
 				System.out.println(currPlayer.getName()+", you are out of money. Thankyou for playng");
 				currPlayer.setCashout(true);
@@ -285,7 +323,7 @@ public class TriantaGame extends CardGame {
 			}
 		}
 		int remainingPlayers = this.cardGameConfig.getPlayerCount();
-		for(TriantaPlayer currPlayer:triantaplayers) {
+		for(TriantaPlayer currPlayer: triantaPlayers) {
 			if(currPlayer.isCashout()== true)
 				remainingPlayers--;
 		}
