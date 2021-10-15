@@ -3,12 +3,11 @@ package com.bu.cs.component.cardgame.trianta;
 import com.bu.cs.component.cardgame.CardPlayer;
 import com.bu.cs.component.cardgame.card.Decks;
 
-public class TriantaPlayer extends CardPlayer {
+public class TriantaPlayer extends CardPlayer implements Comparable<TriantaPlayer>{
 	private boolean isDealer = false;
 	private boolean isfold = false;
 	private boolean cashout = false;
-	private boolean isBust = false;
-	private boolean isStand = false;
+
 
 	public boolean isDealer() {
 		return isDealer;
@@ -33,28 +32,18 @@ public class TriantaPlayer extends CardPlayer {
 	public void setCashout(boolean cashout) {
 		this.cashout = cashout;
 	}
-
-	public boolean isBust() {
-		return isBust;
-	}
-
-	public void setBust(boolean isBust) {
-		this.isBust = isBust;
-	}
-
-	public boolean isStand() {
-		return isStand;
-	}
-
-	public void setStand(boolean isStand) {
-		this.isStand = isStand;
-	}
 	
 	//cashOut can't be reset at the end of a round
 	@Override
 	public void resetPlayer() {
 		setIsfold(false);
-		setBust(false);
-		setStand(false);
+		getHands().get(0).setBust(false);
+		getHands().get(0).setStand(false);		
+	}
+
+	@Override
+	public int compareTo(TriantaPlayer o) {
+		// TODO Auto-generated method stub
+		return this.getMoney()-o.getMoney();
 	}
 }
