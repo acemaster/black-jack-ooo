@@ -229,19 +229,20 @@ public class TriantaGame extends CardGame {
 				currPlayer.removeMoney(currPlayer.getHands().get(0).getBet());
 				gameDealer.addMoney(currPlayer.getHands().get(0).getBet());
 			}
+			currPlayer.resetHand();
 		}
+		gameDealer.resetHand();
 		summary();//display player summary before asking for dealer change
 		Collections.sort(triantaplayers);
 		Collections.reverse(triantaplayers);//sort in decreasing order of their money
 
 		Scanner scanner = new Scanner(System.in);
 		boolean dealerSet = false;
+		int playerIndex = 0;
 		while(dealerSet == false) {
-			int playerIndex = 0;
 			if(triantaplayers.get(playerIndex).isDealer() == true)
 				dealerSet = true;
 			else {
-				scanner.nextLine();
 				String playerAnswer = GameFunctions.safeScanString(scanner,triantaplayers.get(playerIndex).getName()+", Would you like to be the dealer?Y/N:");
 				if(playerAnswer.equalsIgnoreCase("y")) {
 					triantaplayers.get(playerIndex).setDealer(true);
@@ -265,7 +266,7 @@ public class TriantaGame extends CardGame {
 			}
 			else {
 				Scanner scanner = new Scanner(System.in);
-				String playerAnswer = GameFunctions.safeScanString(scanner,currPlayer.getName()+", would you like to cashout?Y/N");
+				String playerAnswer = GameFunctions.safeScanString(scanner,currPlayer.getName()+", would you like to cashout?Y/N:");
 				if(playerAnswer.equalsIgnoreCase("y")) {
 					currPlayer.setCashout(true);
 				}
