@@ -34,8 +34,7 @@ public class BlackJackGame extends CardGame {
         System.out.println("==============");
         int totalGames = 0;
         System.out.println("Dealer: ");
-        System.out.printf("\tWins         : %d %n",blackjackDealer.getWins());
-        System.out.printf("\tAccount Value: %d %n",blackjackDealer.getMoney());
+        System.out.printf("\tAmount of money casino made: %d %n",blackjackDealer.getMoney());
         totalGames = totalGames + blackjackDealer.getWins();
         for(BlackJackPlayer blackJackPlayer:blackJackPlayers) {
             System.out.printf("Player %s: %n",blackJackPlayer.getName());

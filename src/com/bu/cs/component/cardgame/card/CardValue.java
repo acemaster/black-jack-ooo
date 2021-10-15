@@ -1,5 +1,8 @@
 package com.bu.cs.component.cardgame.card;
 
+/**
+ * Enum for all values of card
+ */
 public enum CardValue {
 
     ACE(1,11),

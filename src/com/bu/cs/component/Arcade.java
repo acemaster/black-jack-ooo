@@ -10,12 +10,18 @@ public class Arcade {
 
     private Game[] games;
 
+    /**
+     * Constructor for Arcade games
+     */
     public Arcade() {
         games = new Game[2];
         games[0] = new BlackJackGame();
         games[1] = new TriantaGame();
     }
 
+    /**
+     * Start the arcade
+     */
     public void startArcade() {
         boolean exit = false;
         do {

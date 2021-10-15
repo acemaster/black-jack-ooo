@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Wrapper class for handling multiple decks of cards
+ */
 public class Decks {
     private List<Deck> deckList;
     private Random randomGenerator;
@@ -16,6 +19,10 @@ public class Decks {
         }
     }
 
+    /**
+     * Private function to get random deck
+     * @return
+     */
     private Deck getRandomDeck(){
         if(deckList.size() == 1 && deckList.get(0).getRemainingCards() > 0) {
             return deckList.get(0);
@@ -25,6 +32,10 @@ public class Decks {
         }
     }
 
+    /**
+     * Get the random card
+     * @return
+     */
     public Card getRandomCard() {
         Deck deck = getRandomDeck();
         Card card = deck.getRandomCard();
@@ -34,6 +45,11 @@ public class Decks {
         return card;
     }
 
+    /**
+     * Get a random card with particular face down value
+     * @param isFaceDown
+     * @return
+     */
     public Card getRandomCard(boolean isFaceDown) {
         Deck deck = getRandomDeck();
         Card card = deck.getRandomCard();

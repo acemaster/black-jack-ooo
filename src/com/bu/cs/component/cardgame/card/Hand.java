@@ -46,14 +46,10 @@ public class Hand {
 
     public void setCards(List<Card> cards) {
         this.cards = cards;
-        Collections.sort(cards);
-        Collections.reverse(cards);
     }
 
     public void addCard(Card card) {
         cards.add(card);
-        Collections.sort(cards);
-        Collections.reverse(cards);
     }
 
     public void removeCard(Card card) {
@@ -62,14 +58,20 @@ public class Hand {
 
     public int currentHand() {
         int sum = 0;
+        int aceCount = 0;
         for(Card card:cards) {
             if(card.getCardValue() == CardValue.ACE){
-                if(sum + card.getCardValue().getAltValue() <= 21) {
-                    sum += card.getCardValue().getAltValue();
-                    continue;
-                }
+                aceCount++;
+                continue;
             }
             sum += card.getCardValue().getValue();
+        }
+        for(int i=0;i<aceCount;i++) {
+            if(sum + CardValue.ACE.getAltValue() <= 21) {
+                sum += CardValue.ACE.getAltValue();
+                continue;
+            }
+            sum += CardValue.ACE.getValue();
         }
         return sum;
     }

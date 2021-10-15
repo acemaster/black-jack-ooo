@@ -12,6 +12,9 @@ public class Deck {
     private List<Card> cards;
     private Random randomGenerator;
 
+    /**
+     * Constructor for creating the deck
+     */
     public Deck() {
         randomGenerator = new Random();
         cards = new ArrayList<>();
@@ -23,14 +26,26 @@ public class Deck {
         }
     }
 
+    /**
+     * Constructor for getting the list of cards
+     * @return
+     */
     public List<Card> getCards() {
         return cards;
     }
 
+    /**
+     * Constructor for getting the remaining
+     * @return
+     */
     public int getRemainingCards() {
         return cards.size();
     }
 
+    /**
+     * Get the random card
+     * @return
+     */
     public Card getRandomCard() {
         int index = randomGenerator.nextInt(cards.size());
         Card card = cards.get(index);
