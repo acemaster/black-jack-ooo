@@ -37,11 +37,7 @@ public class TriantaGame extends CardGame {
 	public boolean isGameComplete(int playerIndex) {
 		// TODO Auto-generated method stub	
 		int handIndex = 0;
-		if((gameDealer.getHands().get(0).isWon() == true)){//if dealer gets a natural Trianta Ena, he win no matter what
-			triantaplayers.get(playerIndex).getHands().get(handIndex).setWon(false);	//Player loses even if he has a natural Trianta Ena
-			System.out.println("Dealer has a natural Trianta Ena.\nDealer wins!!!");
-		}
-		else if (triantaplayers.get(playerIndex).getHands().get(handIndex).isWon()) {
+		if (triantaplayers.get(playerIndex).getHands().get(handIndex).isWon()) {
 			System.out.println(triantaplayers.get(playerIndex).getName()+" has a natural Trianta Ena.\n"+triantaplayers.get(playerIndex).getName()+" wins!!!");
 		}
 		else if(gameDealer.isBust()) {
@@ -104,7 +100,8 @@ public class TriantaGame extends CardGame {
             gameDealer.setName(cardPlayers.get(dealerIndex).getName());
             triantaplayers.get(dealerIndex).setDealer(true);
             gameDealer.addMoney(playerMoney*3);
-            for (int i = 0; i < triantaplayers.size()-dealerIndex; i++) {
+            for (int i = 0; i < triantaplayers.size(); i++) {
+            	if(i == dealerIndex) continue;
             	triantaplayers.get(i).addMoney(playerMoney);
             }
 	        //Each player gets a card including dealer
@@ -183,9 +180,18 @@ public class TriantaGame extends CardGame {
     	        	isPlayerBust(dealerIndex);
     	        }//while
     	        //check if player won/lose, dealer wins if it is a draw
-    	        for(TriantaPlayer currPlayer:triantaplayers) {
-    	        	boolean isPlayerwin = isGameComplete(triantaplayers.indexOf(currPlayer));	        		
-    	        }
+    			if((gameDealer.getHands().get(0).isWon() == true)){//if dealer gets a natural Trianta Ena, he win no matter what
+    				System.out.println("Dealer has a natural Trianta Ena.\nDealer wins!!!");
+    				for(TriantaPlayer currPlayer:triantaplayers) {
+    					if(currPlayer.isDealer() == true) continue;
+    					currPlayer.getHands().get(0).setWon(false);
+    				}
+    			}
+    			else {
+    				for(TriantaPlayer currPlayer:triantaplayers) {
+        	        	boolean isPlayerwin = isGameComplete(triantaplayers.indexOf(currPlayer));	        		
+        	        }
+    			}
     	        settleRound();
     	        isEndGame = endGame();
             }//while    
@@ -255,6 +261,7 @@ public class TriantaGame extends CardGame {
 					triantaplayers.get(dealerIndex).setDealer(false);
 					dealerIndex = playerIndex;
 					gameDealer.setName(cardPlayers.get(dealerIndex).getName());
+					gameDealer.setMoney(triantaplayers.get(playerIndex).getMoney());
 				}
 				else
 					playerIndex++;
