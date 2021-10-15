@@ -47,7 +47,7 @@ public class TriantaGame extends CardGame {
 			}			
 		}
 		else {
-			 if(triantaplayers.get(playerIndex).getHands().get(handIndex).currentHand() >= gameDealer.getHands().get(0).currentHand()) {
+			 if(triantaplayers.get(playerIndex).getHands().get(handIndex).currentHand() > gameDealer.getHands().get(0).currentHand()) {
 				triantaplayers.get(playerIndex).getHands().get(handIndex).setWon(true);
 				System.out.println(triantaplayers.get(playerIndex).getName()+" wins");
 			}
