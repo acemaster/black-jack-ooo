@@ -3,7 +3,7 @@ package com.bu.cs.component.cardgame.trianta;
 import com.bu.cs.component.cardgame.CardPlayer;
 
 /**
- * Check the trianta player
+ * Trianta player class
  */
 public class TriantaPlayer extends CardPlayer implements Comparable<TriantaPlayer>{
 	private boolean isDealer = false;
@@ -34,8 +34,10 @@ public class TriantaPlayer extends CardPlayer implements Comparable<TriantaPlaye
 	public void setCashout(boolean cashout) {
 		this.cashout = cashout;
 	}
-	
-	//cashOut can't be reset at the end of a round
+
+	/**
+	 * Reset the player
+	 */
 	@Override
 	public void resetPlayer() {
 		setIsfold(false);
@@ -43,9 +45,13 @@ public class TriantaPlayer extends CardPlayer implements Comparable<TriantaPlaye
 		getHands().get(0).setStand(false);		
 	}
 
+	/**
+	 * Compare two trianta players
+	 * @param o
+	 * @return
+	 */
 	@Override
 	public int compareTo(TriantaPlayer o) {
-		// TODO Auto-generated method stub
 		return this.getMoney()-o.getMoney();
 	}
 }
