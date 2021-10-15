@@ -142,7 +142,7 @@ public class TriantaGame extends CardGame {
 		for (int i = 0; i < triantaPlayers.size(); i++) {
 			System.out.printf("%d. %s %n",i + 1, triantaPlayers.get(i).getName());
 		}
-		dealerIndex = GameFunctions.safeScanInt(scanner,"Enter option: ")-1;
+		dealerIndex = GameFunctions.safeScanIntWithLimit(scanner,"Enter option: ",1,this.cardGameConfig.getPlayerCount())-1;
 		scanner.nextLine();
 		gameDealer.setName(cardPlayers.get(dealerIndex).getName());
 		triantaPlayers.get(dealerIndex).setDealer(true);
@@ -205,7 +205,7 @@ public class TriantaGame extends CardGame {
 			while((currPlayer.getHands().get(0).isBust() == false && currPlayer.getHands().get(0).isStand() == false) && currPlayer.isfold() == false && currPlayer.getHands().get(0).isWon() == false && currPlayer.isDealer() == false) {
 				currPlayer.summary();
 				System.out.println(currPlayer.getName()+",choose the action you would like to take\n1.Hit\n2.Stand");
-				int playerOption = GameFunctions.safeScanInt(scanner,"Enter option: ");
+				int playerOption = GameFunctions.safeScanIntWithLimit(scanner,"Enter option: ",1,2);
 				if(playerOption == 1) {
 					currPlayer.hit(decks, false);
 					isPlayerBust(triantaPlayers.indexOf(currPlayer));
@@ -239,9 +239,9 @@ public class TriantaGame extends CardGame {
 				gameDealer.summary();
 				currPlayer.summary();
 				System.out.println(currPlayer.getName()+", Choose the action you would like to take\n1.Fold\n2.Bet");
-				int playerOption = GameFunctions.safeScanInt(scanner,"Enter option: ");
+				int playerOption = GameFunctions.safeScanIntWithLimit(scanner,"Enter option: ",1,2);
 				if(playerOption == 2) {
-					int playerBet = GameFunctions.safeScanInt(scanner,"Enter amount you would like to bet: ");
+					int playerBet = GameFunctions.safeScanIntWithLimit(scanner,"Enter amount you would like to bet: ",1,currPlayer.getMoney());
 					currPlayer.getHands().get(0).setBet(playerBet);
 				}
 				else {
@@ -256,7 +256,7 @@ public class TriantaGame extends CardGame {
     	triantaPlayers = new ArrayList<>();
         cardPlayers = new ArrayList<>();
         gameDealer = new TriantaDealer ();
-        this.cardGameConfig.setPlayerCount(GameFunctions.safeScanInt(scanner,"Please enter the number of players: "));
+        this.cardGameConfig.setPlayerCount(GameFunctions.safeScanIntWithLimit(scanner,"Please enter the number of players: ",3,9));
         scanner.nextLine();
         this.cardGameConfig.setNumberOfDecks(2);
         this.cardGameConfig.setWinCondition(31);
