@@ -53,4 +53,11 @@ public class TriantaPlayer extends CardPlayer implements Comparable<TriantaPlaye
 	public int compareTo(TriantaPlayer o) {
 		return this.getMoney()-o.getMoney();
 	}
+
+	@Override
+	public void summary() {
+		System.out.println(name + " Hand: ");
+		this.getHands().get(0).display();
+		System.out.printf("%s: Current Hand: %d %n", name, getHands().get(0).currentHand());
+	}
 }

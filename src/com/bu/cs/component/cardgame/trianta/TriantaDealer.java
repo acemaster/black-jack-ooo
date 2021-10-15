@@ -29,4 +29,11 @@ public class TriantaDealer extends Dealer{
 	public void setBust(boolean isBust) {
 		this.isBust = isBust;
 	}
+
+	@Override
+	public void summary() {
+		System.out.println("Dealer Hand: ");
+		this.getHands().get(0).display();
+		System.out.printf("Dealer: Current Hand: %d %n",getHands().get(0).currentHand());
+	}
 }

@@ -85,7 +85,7 @@ public abstract class CardPlayer extends Player {
      * @param showHand
      */
     public void summary(boolean showHand) {
-        System.out.println(name + " summary: ");
+        System.out.println(name + " Hand: ");
         if (hands.size() == 1) {
             hands.get(0).display();
             if(showHand) {

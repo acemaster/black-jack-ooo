@@ -2,7 +2,6 @@ package com.bu.cs.component.cardgame.trianta;
 
 import com.bu.cs.component.Player;
 import com.bu.cs.component.cardgame.CardGame;
-import com.bu.cs.component.cardgame.blackJack.BlackJackPlayer;
 import com.bu.cs.component.cardgame.card.CardValue;
 import com.bu.cs.helper.GameFunctions;
 
@@ -174,7 +173,6 @@ public class TriantaGame extends CardGame {
 		//after players are done, dealer plays until his mincount and check for a natural Trianta Ena
 		gameDealer.addCard(gameDealer.dealPlayer(decks, false));
 		gameDealer.addCard(gameDealer.dealPlayer(decks, false));
-		System.out.println("Dealer's hand");
 		gameDealer.summary();
 		if(isTrianta(dealerIndex) == true) {
 			gameDealer.getHands().get(0).setWon(true);
@@ -238,9 +236,7 @@ public class TriantaGame extends CardGame {
 	private void foldOrBet(Scanner scanner) {
 		for(TriantaPlayer currPlayer: triantaPlayers) {
 			if(currPlayer.isDealer() == false) {
-				System.out.println("Dealer's hand");
 				gameDealer.summary();
-				System.out.println(currPlayer.getName()+", your hand");
 				currPlayer.summary();
 				System.out.println(currPlayer.getName()+", Choose the action you would like to take\n1.Fold\n2.Bet");
 				int playerOption = GameFunctions.safeScanInt(scanner,"Enter option: ");
