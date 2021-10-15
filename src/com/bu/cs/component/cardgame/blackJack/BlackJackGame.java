@@ -113,7 +113,7 @@ public class BlackJackGame extends CardGame {
     public void startGame() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to the game of BlackJack!!");
-        initializeGame(scanner, GameConstants.BLACK_JACK_PLAYERS);
+        initializeGame(scanner, this.cardGameConfig.getPlayerCount());
         while(true){
             // Round starts here
             //Initialize the game with all the details
@@ -184,9 +184,10 @@ public class BlackJackGame extends CardGame {
      */
     private void initializeGame(Scanner scanner,int playerCount) {
         blackJackPlayers = new ArrayList<>();
-        this.cardGameConfig.setPlayerCount(playerCount);
+        this.cardGameConfig.setPlayerCount(GameFunctions.safeScanInt(scanner,"Please enter the number of players: "));
         this.cardGameConfig.setNumberOfDecks(GameFunctions.safeScanInt(scanner,"Please enter the number of decks: "));
-        this.cardGameConfig.setWinCondition(GameFunctions.safeScanInt(scanner,"Please enter the game win condition: "));
+//        this.cardGameConfig.setWinCondition(GameFunctions.safeScanInt(scanner,"Please enter the game win condition: "));
+        this.cardGameConfig.setWinCondition(GameConstants.BLACK_JACK_WIN_CONDITION);
         initializeDeck();
         scanner.nextLine();
         blackjackDealer = new BlackjackDealer();
@@ -258,7 +259,13 @@ public class BlackJackGame extends CardGame {
                         currentPlayer.addMoney(currentBet);
                         currentPlayer.incrementWins();
                     }
-                    System.out.printf("%s Hand %d: Draw since hand value is equal %n",currentPlayer.getName(),(i+1));
+                    else if(!currentPlayer.isNaturalBlackJack(i,cardGameConfig.getWinCondition()) && blackjackDealer.isNaturalBlackJack(0, cardGameConfig.getWinCondition())) {
+                        System.out.printf("Dealer: Wins due to Natural Black Jack %n");
+                        blackjackDealer.addMoney(currentBet);
+                        blackjackDealer.incrementWins();
+                    }
+                    else
+                        System.out.printf("%s Hand %d: Draw since hand value is equal %n",currentPlayer.getName(),(i+1));
                 }
             }
         }
