@@ -41,8 +41,7 @@ public class TriantaPlayer extends CardPlayer implements Comparable<TriantaPlaye
 	@Override
 	public void resetPlayer() {
 		setIsfold(false);
-		getHands().get(0).setBust(false);
-		getHands().get(0).setStand(false);		
+		resetHand();
 	}
 
 	/**

@@ -234,12 +234,17 @@ public class BlackJackGame extends CardGame {
                     currentPlayer.incrementWins();
                     continue;
                 }
-                if(currentPlayer.getHands().get(i).isBust()){
+                if(!blackjackDealer.getHands().get(0).isBust() && currentPlayer.getHands().get(i).isBust()){
                     // for player bust
                     System.out.printf("%s Hand %d: Loses since player is bust %n",currentPlayer.getName(),(i+1));
                     currentPlayer.removeMoney(currentBet);
                     blackjackDealer.addMoney(currentBet);
                     blackjackDealer.incrementWins();
+                    continue;
+                }
+                if(blackjackDealer.getHands().get(0).isBust() && currentPlayer.getHands().get(i).isBust()){
+                    // for both player and dealer bust
+                    System.out.printf("%s Hand %d: Draw since both are bust %n",currentPlayer.getName(),(i+1));
                     continue;
                 }
                 if (blackjackDealer.getHands().get(0).currentHand() < currentPlayer.getHands().get(0).currentHand()) {
