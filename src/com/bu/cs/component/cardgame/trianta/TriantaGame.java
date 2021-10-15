@@ -26,8 +26,10 @@ public class TriantaGame extends CardGame {
     }
 
     @Override
-    public void summary() {
-    	//to be added in cardgame class
+    public void summary() {//to add properly
+    	for(TriantaPlayer currPlayer:triantaplayers) {
+    		System.out.println(currPlayer.getName()+" won "+currPlayer.getWins()+" games\nCurrent balance: "+currPlayer.getMoney());
+    	}
     } 
     
     //check
@@ -220,18 +222,21 @@ public class TriantaGame extends CardGame {
 	public void settleRound() {
 		// settle the bet checking if the player won or lost
 		for(TriantaPlayer currPlayer:triantaplayers) {
-			if(currPlayer.getHands().get(0).isWon() == true && currPlayer.isDealer() != true) {
-				currPlayer.addMoney(currPlayer.getHands().get(0).getBet());
-				currPlayer.incrementWins();
-				gameDealer.removeMoney(currPlayer.getHands().get(0).getBet());
-			}
-			else {
-				currPlayer.removeMoney(currPlayer.getHands().get(0).getBet());
-				gameDealer.addMoney(currPlayer.getHands().get(0).getBet());
-			}
+			if(currPlayer.isDealer() != true) {
+				if(currPlayer.getHands().get(0).isWon() == true) {
+					currPlayer.addMoney(currPlayer.getHands().get(0).getBet());
+					currPlayer.incrementWins();
+					gameDealer.removeMoney(currPlayer.getHands().get(0).getBet());
+				}
+				else {
+					currPlayer.removeMoney(currPlayer.getHands().get(0).getBet());
+					gameDealer.addMoney(currPlayer.getHands().get(0).getBet());
+				}
+			}			
 			currPlayer.resetHand();
 		}
 		gameDealer.resetHand();
+		triantaplayers.get(dealerIndex).setMoney(gameDealer.getMoney());//showing dealer wallet as a player
 		summary();//display player summary before asking for dealer change
 		Collections.sort(triantaplayers);
 		Collections.reverse(triantaplayers);//sort in decreasing order of their money
@@ -248,7 +253,6 @@ public class TriantaGame extends CardGame {
 					triantaplayers.get(playerIndex).setDealer(true);
 					dealerSet = true;
 					triantaplayers.get(dealerIndex).setDealer(false);
-					triantaplayers.get(dealerIndex).setMoney(gameDealer.getMoney());
 					dealerIndex = playerIndex;
 					gameDealer.setName(cardPlayers.get(dealerIndex).getName());
 				}
