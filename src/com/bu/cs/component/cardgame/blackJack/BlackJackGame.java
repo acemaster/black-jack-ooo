@@ -184,8 +184,8 @@ public class BlackJackGame extends CardGame {
      */
     private void initializeGame(Scanner scanner,int playerCount) {
         blackJackPlayers = new ArrayList<>();
-        this.cardGameConfig.setPlayerCount(GameFunctions.safeScanInt(scanner,"Please enter the number of players: "));
-        this.cardGameConfig.setNumberOfDecks(GameFunctions.safeScanInt(scanner,"Please enter the number of decks: "));
+        this.cardGameConfig.setPlayerCount(GameFunctions.safeScanIntWithLimit(scanner,"Please enter the number of players: ", 0, GameConstants.BLACK_JACK_MAX_PLAYERS));
+        this.cardGameConfig.setNumberOfDecks(GameFunctions.safeScanIntWithLimit(scanner,"Please enter the number of decks: ", 0, GameConstants.BLACK_JACK_MAX_DECKS));
 //        this.cardGameConfig.setWinCondition(GameFunctions.safeScanInt(scanner,"Please enter the game win condition: "));
         this.cardGameConfig.setWinCondition(GameConstants.BLACK_JACK_WIN_CONDITION);
         initializeDeck();
