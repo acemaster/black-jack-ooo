@@ -16,11 +16,18 @@ public class BlackJackGame extends CardGame {
     private List<BlackJackPlayer> blackJackPlayers;
     private BlackjackDealer blackjackDealer;
 
+    /**
+     * Name of the game
+     * @return name
+     */
     @Override
     public String getName() {
         return "BlackJack";
     }
 
+    /**
+     * Summary of the game
+     */
     @Override
     public void summary() {
         System.out.println("Round Summary");
@@ -40,7 +47,11 @@ public class BlackJackGame extends CardGame {
     }
 
 
-
+    /**
+     * Check if game is complete for the player
+     * @param playerIndex
+     * @return
+     */
     @Override
     public boolean isGameComplete(int playerIndex) {
         List<Hand> hands = this.blackJackPlayers.get(playerIndex).getHands();
@@ -53,6 +64,10 @@ public class BlackJackGame extends CardGame {
         return false;
     }
 
+    /**
+     * Set of deal at the beginning of each round
+     * @param scanner
+     */
     public void dealAndBet(Scanner scanner){
         for(BlackJackPlayer blackJackPlayer: blackJackPlayers) {
             if(blackJackPlayer.getMoney() == 0) {
@@ -67,6 +82,9 @@ public class BlackJackGame extends CardGame {
         blackjackDealer.initialize(decks);
     }
 
+    /**
+     * Resetting the game
+     */
     public void resetGame(){
         for(BlackJackPlayer blackJackPlayer: blackJackPlayers) {
             blackJackPlayer.resetPlayer();
@@ -74,6 +92,10 @@ public class BlackJackGame extends CardGame {
         blackjackDealer.resetHand();
     }
 
+    /**
+     * Checking if there are any remaining players
+     * @return
+     */
     public boolean isRemainingPlayers() {
         for(BlackJackPlayer blackJackPlayer: blackJackPlayers) {
             for(Hand hand: blackJackPlayer.getHands()) {
@@ -85,6 +107,9 @@ public class BlackJackGame extends CardGame {
         return false;
     }
 
+    /**
+     * Start the game
+     */
     @Override
     public void startGame() {
         Scanner scanner = new Scanner(System.in);
@@ -153,6 +178,11 @@ public class BlackJackGame extends CardGame {
         }
     }
 
+    /**
+     * Initialize the game with the game and player details
+     * @param scanner
+     * @param playerCount
+     */
     private void initializeGame(Scanner scanner,int playerCount) {
         blackJackPlayers = new ArrayList<>();
         this.cardGameConfig.setPlayerCount(playerCount);
@@ -170,11 +200,18 @@ public class BlackJackGame extends CardGame {
         }
     }
 
+    /**
+     * Get the players
+     * @return
+     */
     @Override
     public Player[] getPlayers() {
         return new Player[0];
     }
 
+    /**
+     * Settle the round by checking the hands of the dealer and the players
+     */
     @Override
     public void settleRound() {
         System.out.println("Dealer: Showing face down card and hitting until minValue");

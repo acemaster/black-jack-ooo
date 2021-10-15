@@ -12,6 +12,10 @@ import java.util.List;
 
 public class BlackJackPlayer extends CardPlayer {
 
+	/**
+	 * Function to split the hand
+	 * @param handIndex
+	 */
 	public void split(int handIndex) {
 		Hand currentHand = this.getHands().get(handIndex);
 		if(currentHand.getCards().get(0).equals(currentHand.getCards().get(1))) {
@@ -20,7 +24,12 @@ public class BlackJackPlayer extends CardPlayer {
 			this.addHand(newHand);
 		}
 	}
-	
+
+	/**
+	 * Double the bet, get an extra card and stand
+	 * @param handIndex
+	 * @param decks
+	 */
 	public void doubleUp(int handIndex, Decks decks) {
 		int betvalue = this.getHands().get(handIndex).getBet(); //assuming double up is not allowed after a split
 		this.getHands().get(handIndex).setBet(betvalue * 2);
@@ -28,6 +37,12 @@ public class BlackJackPlayer extends CardPlayer {
 		this.getHands().get(handIndex).setStand(true);
 	}
 
+	/**
+	 * Check if the hand has a natural blackjack
+	 * @param handIndex
+	 * @param winCondition
+	 * @return
+	 */
 	public  boolean isNaturalBlackJack(int handIndex, int winCondition){
 		Hand hand = this.getHands().get(handIndex);
 		List<CardValue> cardValues = new ArrayList<>();
@@ -42,6 +57,9 @@ public class BlackJackPlayer extends CardPlayer {
 		return false;
 	}
 
+	/**
+	 * Reset the player and its values
+	 */
 	@Override
 	public void resetPlayer() {
 		resetHand();

@@ -11,10 +11,20 @@ import java.util.List;
 public class BlackjackDealer extends Dealer{
 	private int minValue = 17;
 
+	/**
+	 * Get the min value for the dealer
+	 * @return
+	 */
 	public int getMinValue() {
 		return minValue;
 	}
 
+	/**
+	 * Check if the hand is a natural black jack
+	 * @param handIndex
+	 * @param winCondition
+	 * @return
+	 */
 	public  boolean isNaturalBlackJack(int handIndex, int winCondition){
 		Hand hand = this.getHands().get(handIndex);
 		List<CardValue> cardValues = new ArrayList<>();
