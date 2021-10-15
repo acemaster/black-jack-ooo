@@ -2,6 +2,7 @@ package com.bu.cs.component.cardgame.trianta;
 
 import com.bu.cs.component.Player;
 import com.bu.cs.component.cardgame.CardGame;
+import com.bu.cs.component.cardgame.blackJack.BlackJackPlayer;
 import com.bu.cs.component.cardgame.card.CardValue;
 import com.bu.cs.helper.GameFunctions;
 
@@ -32,10 +33,18 @@ public class TriantaGame extends CardGame {
 	 * Summary of the game
 	 */
     @Override
-    public void summary() {//to add properly
-    	for(TriantaPlayer currPlayer: triantaPlayers) {
-    		System.out.println(currPlayer.getName()+" won "+currPlayer.getWins()+" games\nCurrent balance: "+currPlayer.getMoney());
-    	}
+    public void summary() {
+		//to add properly
+		System.out.println("Round Summary");
+		System.out.println("==============");
+		int totalGames = 0;
+		for(TriantaPlayer currPlayer: triantaPlayers) {
+			System.out.printf("Player %s: %n",currPlayer.getName());
+			System.out.printf("\tWins         : %d %n",currPlayer.getWins());
+			System.out.printf("\tAccount Value: %d %n",currPlayer.getMoney());
+			totalGames = totalGames + currPlayer.getWins();
+		}
+		System.out.printf("Total Rounds played: %d %n",totalGames);
     }
 
 
@@ -92,7 +101,7 @@ public class TriantaGame extends CardGame {
 	public void isPlayerBust(int playerIndex) {
     	if(triantaPlayers.get(playerIndex).getHands().get(0).currentHand() > this.cardGameConfig.getWinCondition()) {
     		triantaPlayers.get(playerIndex).getHands().get(0).setBust(true);
-    		triantaPlayers.get(playerIndex).getHands().get(0).display();
+    		triantaPlayers.get(playerIndex).summary();
     		System.out.println("Busted!! Try your luck in the next round");
     	}
     }
@@ -166,14 +175,14 @@ public class TriantaGame extends CardGame {
 		gameDealer.addCard(gameDealer.dealPlayer(decks, false));
 		gameDealer.addCard(gameDealer.dealPlayer(decks, false));
 		System.out.println("Dealer's hand");
-		gameDealer.getHands().get(0).display();
+		gameDealer.summary();
 		if(isTrianta(dealerIndex) == true) {
 			gameDealer.getHands().get(0).setWon(true);
 		}
 		while(gameDealer.getHands().get(0).currentHand() < gameDealer.getMinvalue() && gameDealer.isBust() == false && gameDealer.getHands().get(0).isWon() == false) {
 			triantaPlayers.get(dealerIndex).resetHand();//reset and added later to keep in sync
 			gameDealer.addCard(gameDealer.dealPlayer(decks, false));
-			gameDealer.getHands().get(0).display();
+			gameDealer.summary();
 			triantaPlayers.get(dealerIndex).addHand(gameDealer.getHands().get(0));//just to check isbust logic based on player class
 			isPlayerBust(dealerIndex);
 		}//while
@@ -196,7 +205,7 @@ public class TriantaGame extends CardGame {
 	private void displayDealerPlayerHand(Scanner scanner) {
 		for(TriantaPlayer currPlayer: triantaPlayers) {
 			while((currPlayer.getHands().get(0).isBust() == false && currPlayer.getHands().get(0).isStand() == false) && currPlayer.isfold() == false && currPlayer.getHands().get(0).isWon() == false && currPlayer.isDealer() == false) {
-				currPlayer.getHands().get(0).display();
+				currPlayer.summary();
 				System.out.println(currPlayer.getName()+",choose the action you would like to take\n1.Hit\n2.Stand");
 				int playerOption = GameFunctions.safeScanInt(scanner,"Enter option: ");
 				if(playerOption == 1) {
@@ -215,10 +224,9 @@ public class TriantaGame extends CardGame {
 				//System.out.println(currPlayer.getName()+", here are your cards");
 				currPlayer.addCard(gameDealer.dealPlayer(decks, false));
 				currPlayer.addCard(gameDealer.dealPlayer(decks, false));
-				//currPlayer.getHands().get(0).display();
 				if(isTrianta(triantaPlayers.indexOf(currPlayer))) {
 					currPlayer.getHands().get(0).setWon(true);
-					currPlayer.getHands().get(0).display();
+					currPlayer.summary();
 					System.out.println(currPlayer.getName()+", you have a natural Trianta Ena. Let's see what the dealer has.");
 				}
 				else
@@ -231,9 +239,9 @@ public class TriantaGame extends CardGame {
 		for(TriantaPlayer currPlayer: triantaPlayers) {
 			if(currPlayer.isDealer() == false) {
 				System.out.println("Dealer's hand");
-				gameDealer.getHands().get(0).display();
+				gameDealer.summary();
 				System.out.println(currPlayer.getName()+", your hand");
-				currPlayer.getHands().get(0).display();
+				currPlayer.summary();
 				System.out.println(currPlayer.getName()+", Choose the action you would like to take\n1.Fold\n2.Bet");
 				int playerOption = GameFunctions.safeScanInt(scanner,"Enter option: ");
 				if(playerOption == 2) {
