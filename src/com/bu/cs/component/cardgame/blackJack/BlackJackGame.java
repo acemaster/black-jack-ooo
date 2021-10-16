@@ -72,7 +72,7 @@ public class BlackJackGame extends CardGame {
                 blackJackPlayer.setMoney(GameFunctions.safeScanInt(scanner, String.format("Player %s: Please enter the initial money you want to convert to chips: ",blackJackPlayer.getName())));
             }
             for(Hand hand: blackJackPlayer.getHands()){
-                hand.setBet(GameFunctions.safeScanInt(scanner,String.format("Player %s: Please place initial bet: ",blackJackPlayer.getName())));
+                hand.setBet(GameFunctions.safeScanIntWithLimit(scanner,String.format("Player %s: Please place initial bet: ",blackJackPlayer.getName()), 0, blackJackPlayer.getMoney()));
             }
             blackJackPlayer.addCard(blackjackDealer.dealPlayer(decks, false));
             blackJackPlayer.addCard(blackjackDealer.dealPlayer(decks, false));
