@@ -6,6 +6,15 @@ import com.bu.cs.component.cardgame.card.Decks;
 public class Dealer extends CardPlayer{
 
     /**
+     * Initialize card player with a new hand and card game configuration
+     *
+     * @param cardGameConfig
+     */
+    public Dealer(CardGameConfig cardGameConfig) {
+        super(cardGameConfig);
+    }
+
+    /**
      * Initialize the dealer with face up and face down card
      * @param decks
      */

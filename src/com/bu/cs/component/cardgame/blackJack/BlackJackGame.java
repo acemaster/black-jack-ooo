@@ -214,10 +214,10 @@ public class BlackJackGame extends CardGame {
         this.cardGameConfig.setWinCondition(GameConstants.BLACK_JACK_WIN_CONDITION);
         initializeDeck();
         scanner.nextLine();
-        blackjackDealer = new BlackjackDealer();
+        blackjackDealer = new BlackjackDealer(cardGameConfig);
         blackjackDealer.setName("Dealer");
         for(int i=0;i<this.cardGameConfig.getPlayerCount();i++){
-            BlackJackPlayer player = new BlackJackPlayer();
+            BlackJackPlayer player = new BlackJackPlayer(cardGameConfig);
             player.setName(GameFunctions.safeScanString(scanner,"Please enter the name for player " + (i+1) + ": "));
             player.setPlayerId((i));
             blackJackPlayers.add(player);

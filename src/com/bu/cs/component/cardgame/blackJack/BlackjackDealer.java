@@ -1,5 +1,6 @@
 package com.bu.cs.component.cardgame.blackJack;
 
+import com.bu.cs.component.cardgame.CardGameConfig;
 import com.bu.cs.component.cardgame.Dealer;
 import com.bu.cs.component.cardgame.card.Card;
 import com.bu.cs.component.cardgame.card.CardValue;
@@ -10,6 +11,15 @@ import java.util.List;
 
 public class BlackjackDealer extends Dealer{
 	private int minValue = 17;
+
+	/**
+	 * Initialize card player with a new hand and card game configuration
+	 *
+	 * @param cardGameConfig
+	 */
+	public BlackjackDealer(CardGameConfig cardGameConfig) {
+		super(cardGameConfig);
+	}
 
 	/**
 	 * Get the min value for the dealer

@@ -12,13 +12,15 @@ public abstract class CardPlayer extends Player {
 
     private List<Hand> hands;
     private int money;
+    private CardGameConfig cardGameConfig;
 
     /**
-     * Initialize card player with a new hand
+     * Initialize card player with a new hand and card game configuration
      */
-    public CardPlayer() {
+    public CardPlayer(CardGameConfig cardGameConfig) {
+        this.cardGameConfig = cardGameConfig;
         hands = new ArrayList<>();
-        hands.add(new Hand());
+        hands.add(new Hand(cardGameConfig.getWinCondition()));
         money = 0;
     }
 
@@ -168,11 +170,27 @@ public abstract class CardPlayer extends Player {
      */
     public void resetHand() {
     	hands.clear();
-        hands.add(new Hand());
+        hands.add(new Hand(cardGameConfig.getWinCondition()));
     }
 
     /**
      * Abstract function to reset the player
      */
     public abstract void resetPlayer();
+
+    /**
+     * Get Card Game config set for the player
+     * @return cardGameConfig
+     */
+    public CardGameConfig getCardGameConfig() {
+        return cardGameConfig;
+    }
+
+    /**
+     * Set Card game config set for the player
+     * @param cardGameConfig
+     */
+    public void setCardGameConfig(CardGameConfig cardGameConfig) {
+        this.cardGameConfig = cardGameConfig;
+    }
 }
