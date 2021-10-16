@@ -148,9 +148,8 @@ public abstract class CardPlayer extends Player {
      * @param facedown
      */
     public void hit(Decks decks,int handIndex, boolean facedown) {
-        Card card = decks.getRandomCard();
+        Card card = decks.getRandomCard(facedown);
         System.out.printf("%s has got %s of %ss %n",name,card.getCardValue().toString(),card.getSuit().toString());
-        card.setFaceDown(facedown);
         hands.get(handIndex).addCard(card);
     }
 
@@ -160,8 +159,7 @@ public abstract class CardPlayer extends Player {
      * @param facedown
      */
     public void hit(Decks decks, boolean facedown) {
-        Card card = decks.getRandomCard();
-        card.setFaceDown(facedown);
+        Card card = decks.getRandomCard(facedown);
         hands.get(0).addCard(card);
     }
 

@@ -33,14 +33,6 @@ public class Decks {
     }
 
     /**
-     * Get the random card
-     * @return
-     */
-    public Card getRandomCard() {
-        return getRandomCard(false);
-    }
-
-    /**
      * Get a random card with particular face down value
      * @param isFaceDown
      * @return
