@@ -19,6 +19,7 @@ public class Hand {
     
   //used to add new hand and place bet during split
     public Hand(Card new_card, int betvalue) {
+        this();
         addCard(new_card);
         setBet(betvalue);
     }
@@ -52,7 +53,7 @@ public class Hand {
     }
 
     public void removeCard(Card card) {
-        cards.add(card);
+        cards.remove(card);
     }
 
     public int currentHand() {
