@@ -275,14 +275,14 @@ public class TriantaGame extends CardGame {
 	private void initializeGame(Scanner scanner) {
     	triantaPlayers = new ArrayList<>();
         cardPlayers = new ArrayList<>();
-        gameDealer = new TriantaDealer ();
+        gameDealer = new TriantaDealer(cardGameConfig);
         this.cardGameConfig.setPlayerCount(GameFunctions.safeScanIntWithLimit(scanner,"Please enter the number of players: ", GameConstants.TRIANTA_PLAYER_LOWER_LIMIT,GameConstants.TRIANTA_PLAYER_UPPER_LIMIT));
         scanner.nextLine();
         this.cardGameConfig.setNumberOfDecks(GameConstants.TRIANTA_DECK_COUNT);
         this.cardGameConfig.setWinCondition(GameConstants.TRIANTA_WIN_CONDITION);
         initializeDeck();
         for(int i=0;i<this.cardGameConfig.getPlayerCount();i++){
-        	TriantaPlayer player = new TriantaPlayer();
+        	TriantaPlayer player = new TriantaPlayer(cardGameConfig);
             player.setName(GameFunctions.safeScanString(scanner,"Please enter the name for player " + (i+1) + ": "));
             player.setPlayerId((i));
             cardPlayers.add(player);

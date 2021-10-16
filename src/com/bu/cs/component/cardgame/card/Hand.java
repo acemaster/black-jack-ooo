@@ -12,13 +12,16 @@ public class Hand {
     private boolean won = false;//each hand can win or lose and used to add/deduct money form player
     private boolean isStand;
     private boolean isBust;
+    private int winCondition;
 
-    public Hand() {
+    public Hand(int winCondition) {
         cards = new ArrayList<>();
+        this.winCondition = winCondition;
     }
     
   //used to add new hand and place bet during split
-    public Hand(Card new_card, int betvalue) {
+    public Hand(Card new_card, int betvalue,int winCondition) {
+        this(winCondition);
         addCard(new_card);
         setBet(betvalue);
     }
@@ -52,7 +55,7 @@ public class Hand {
     }
 
     public void removeCard(Card card) {
-        cards.add(card);
+        cards.remove(card);
     }
 
     public int currentHand() {
@@ -66,7 +69,7 @@ public class Hand {
             sum += card.getCardValue().getValue();
         }
         for(int i=0;i<aceCount;i++) {
-            if(sum + CardValue.ACE.getAltValue() <= 21) {
+            if(sum + CardValue.ACE.getAltValue() <= winCondition) {
                 sum += CardValue.ACE.getAltValue();
                 continue;
             }

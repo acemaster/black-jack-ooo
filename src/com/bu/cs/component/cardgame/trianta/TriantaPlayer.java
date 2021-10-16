@@ -1,5 +1,6 @@
 package com.bu.cs.component.cardgame.trianta;
 
+import com.bu.cs.component.cardgame.CardGameConfig;
 import com.bu.cs.component.cardgame.CardPlayer;
 
 /**
@@ -9,6 +10,15 @@ public class TriantaPlayer extends CardPlayer implements Comparable<TriantaPlaye
 	private boolean isDealer = false;
 	private boolean isfold = false;
 	private boolean cashout = false;
+
+	/**
+	 * Initialize card player with a new hand and card game configuration
+	 *
+	 * @param cardGameConfig
+	 */
+	public TriantaPlayer(CardGameConfig cardGameConfig) {
+		super(cardGameConfig);
+	}
 
 
 	public boolean isDealer() {

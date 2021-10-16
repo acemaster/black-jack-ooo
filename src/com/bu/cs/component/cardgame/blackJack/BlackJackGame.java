@@ -167,11 +167,13 @@ public class BlackJackGame extends CardGame {
         for(int i = 0; i< currentPlayer.getHands().size(); i++) {
             while (currentPlayer.getHands().get(i).currentHand() <= this.cardGameConfig.getWinCondition() && !currentPlayer.getHands().get(i).isStand() ){
                 int upperLimit = 3;
+                currentPlayer.getHands().get(i).display();
+                System.out.printf("%s Hand %d current Hand: %d %n", currentPlayer.getName(), i+1, currentPlayer.getHands().get(i).currentHand());
                 String message = "Player "+ currentPlayer.getName()+": Please enter one of the options:\n1. Hit\n2. Stand\n3. Double\n";
                 if(currentPlayer.getHands().get(i).getCards().size() == 2) {
                     List<Card> handCards = currentPlayer.getHands().get(i).getCards();
                     if(handCards.get(0).equals(handCards.get(1))) {
-                        message = message + "4.Split\n";
+                        message = message + "4. Split\n";
                         upperLimit = 4;
                     }
                 }
@@ -188,11 +190,9 @@ public class BlackJackGame extends CardGame {
                         currentPlayer.doubleUp(i, decks);
                         break;
                     case 4:
-                        currentPlayer.split(i);
+                        currentPlayer.split(i, decks, blackjackDealer);
                         break;
                 }
-                currentPlayer.getHands().get(i).display();
-                System.out.printf("%s Hand %d current Hand: %d %n", currentPlayer.getName(), 1, currentPlayer.getHands().get(i).currentHand());
                 if(currentPlayer.getHands().get(i).currentHand() > this.cardGameConfig.getWinCondition()){
                     // Player Bust
                     System.out.printf("Player %s: The player's Hand has bust %n", currentPlayer.getName());
@@ -214,10 +214,10 @@ public class BlackJackGame extends CardGame {
         this.cardGameConfig.setWinCondition(GameConstants.BLACK_JACK_WIN_CONDITION);
         initializeDeck();
         scanner.nextLine();
-        blackjackDealer = new BlackjackDealer();
+        blackjackDealer = new BlackjackDealer(cardGameConfig);
         blackjackDealer.setName("Dealer");
         for(int i=0;i<this.cardGameConfig.getPlayerCount();i++){
-            BlackJackPlayer player = new BlackJackPlayer();
+            BlackJackPlayer player = new BlackJackPlayer(cardGameConfig);
             player.setName(GameFunctions.safeScanString(scanner,"Please enter the name for player " + (i+1) + ": "));
             player.setPlayerId((i));
             blackJackPlayers.add(player);
