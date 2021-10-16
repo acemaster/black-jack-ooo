@@ -97,12 +97,13 @@ public class TriantaGame extends CardGame {
 	 * Check if the player has bust
 	 * @param playerIndex
 	 */
-	public void isPlayerBust(int playerIndex) {
+	public boolean isPlayerBust(int playerIndex) {
     	if(triantaPlayers.get(playerIndex).getHands().get(0).currentHand() > this.cardGameConfig.getWinCondition()) {
     		triantaPlayers.get(playerIndex).getHands().get(0).setBust(true);
     		triantaPlayers.get(playerIndex).summary();
     		System.out.println("Busted!! Try your luck in the next round");
     	}
+    	return triantaPlayers.get(playerIndex).getHands().get(0).isBust();
     }
 
 	/**
@@ -182,7 +183,9 @@ public class TriantaGame extends CardGame {
 			gameDealer.addCard(gameDealer.dealPlayer(decks, false));
 			gameDealer.summary();
 			triantaPlayers.get(dealerIndex).addHand(gameDealer.getHands().get(0));//just to check isbust logic based on player class
-			isPlayerBust(dealerIndex);
+			boolean isDealerBust = isPlayerBust(dealerIndex);
+			if(isDealerBust)
+				gameDealer.setBust(true);
 		}//while
 		//check if player won/lose, dealer wins if it is a draw
 		if((gameDealer.getHands().get(0).isWon() == true)){//if dealer gets a natural Trianta Ena, he win no matter what
@@ -208,7 +211,7 @@ public class TriantaGame extends CardGame {
 				int playerOption = GameFunctions.safeScanIntWithLimit(scanner,"Enter option: ",1,2);
 				if(playerOption == 1) {
 					currPlayer.hit(decks, false);
-					isPlayerBust(triantaPlayers.indexOf(currPlayer));
+					boolean isPlayer_Bust = isPlayerBust(triantaPlayers.indexOf(currPlayer));
 				}
 				else
 					currPlayer.getHands().get(0).setStand(true);
@@ -227,8 +230,9 @@ public class TriantaGame extends CardGame {
 					currPlayer.summary();
 					System.out.println(currPlayer.getName()+", you have a natural Trianta Ena. Let's see what the dealer has.");
 				}
-				else
-					isPlayerBust(triantaPlayers.indexOf(currPlayer));
+				else {
+					boolean isPlayerBust = isPlayerBust(triantaPlayers.indexOf(currPlayer));
+				}
 				}
 		}
 	}
