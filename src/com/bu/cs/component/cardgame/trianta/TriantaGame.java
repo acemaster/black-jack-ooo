@@ -165,7 +165,7 @@ public class TriantaGame extends CardGame {
 	 */
 	private void playRound(Scanner scanner) {
 		for(TriantaPlayer currPlayer: triantaPlayers) {
-			if(currPlayer.isDealer() == false)
+			if(currPlayer.isDealer() == false && currPlayer.isCashout() == false)
 				currPlayer.addCard(gameDealer.dealPlayer(decks, false));
 		}
 		gameDealer.addCard(gameDealer.dealPlayer(decks, false));
@@ -229,8 +229,7 @@ public class TriantaGame extends CardGame {
 
 	private void checkNaturalTriantaForPlayer() {
 		for(TriantaPlayer currPlayer: triantaPlayers) {
-			if(currPlayer.isfold() == false && currPlayer.isDealer() == false) {
-				//System.out.println(currPlayer.getName()+", here are your cards");
+			if(currPlayer.isfold() == false && currPlayer.isDealer() == false && currPlayer.isCashout() == false) {
 				currPlayer.addCard(gameDealer.dealPlayer(decks, false));
 				currPlayer.addCard(gameDealer.dealPlayer(decks, false));
 				if(isTrianta(triantaPlayers.indexOf(currPlayer))) {
@@ -238,16 +237,13 @@ public class TriantaGame extends CardGame {
 					currPlayer.summary();
 					System.out.println(currPlayer.getName()+", you have a natural Trianta Ena. Let's see what the dealer has.");
 				}
-				//else {
-				//	boolean isPlayerBust = isPlayerBust(triantaPlayers.indexOf(currPlayer));
-				//}
 			}
 		}
 	}
 
 	private void foldOrBet(Scanner scanner) {
 		for(TriantaPlayer currPlayer: triantaPlayers) {
-			if(currPlayer.isDealer() == false) {
+			if(currPlayer.isDealer() == false && currPlayer.isCashout() == false) {
 				gameDealer.summary();
 				currPlayer.summary();
 				System.out.println(currPlayer.getName()+", Choose the action you would like to take\n1.Fold\n2.Bet");
@@ -320,7 +316,7 @@ public class TriantaGame extends CardGame {
 				dealerSet = true;
 				dealerIndex = playerIndex;
 			}
-			else {
+			else if(triantaPlayers.get(playerIndex).isCashout() == false){
 				String playerAnswer = GameFunctions.safeScanString(scanner, triantaPlayers.get(playerIndex).getName()+", Would you like to be the dealer?Y/N:");
 				if(playerAnswer.equalsIgnoreCase("y")) {
 					for(TriantaPlayer currPlayer: triantaPlayers) {
@@ -345,12 +341,12 @@ public class TriantaGame extends CardGame {
 	 */
 	public boolean endGame() {
 		for(TriantaPlayer currPlayer: triantaPlayers) {
-			if(currPlayer.getMoney()<=0) {
+			if(currPlayer.getMoney()<=0 && currPlayer.isCashout() == false) {
 				System.out.println(currPlayer.getName()+", you are out of money. Thankyou for playng");
 				currPlayer.setCashout(true);
 			}
 			else {
-				if(!currPlayer.isDealer()) {
+				if(currPlayer.isDealer() == false && currPlayer.isCashout() == false) {
 					Scanner scanner = new Scanner(System.in);
 					String playerAnswer = GameFunctions.safeScanString(scanner,currPlayer.getName()+", would you like to cashout?Y/N:");
 					if(playerAnswer.equalsIgnoreCase("y")) {
