@@ -40,6 +40,10 @@ public class TriantaGame extends CardGame {
 		System.out.println("==============");
 		int totalGames = 0;
 		for(TriantaPlayer currPlayer: triantaPlayers) {
+			if(currPlayer.getPlayerId() == gameDealer.getPlayerId()) {
+				System.out.printf("Dealer %s: %n",currPlayer.getName());
+				System.out.printf("\tAccount Value: %d %n",currPlayer.getMoney());
+			}
 			System.out.printf("Player %s: %n",currPlayer.getName());
 			System.out.printf("\tWins         : %d %n",currPlayer.getWins());
 			System.out.printf("\tAccount Value: %d %n",currPlayer.getMoney());
@@ -152,6 +156,7 @@ public class TriantaGame extends CardGame {
 		dealerIndex = GameFunctions.safeScanIntWithLimit(scanner,"Enter option: ",1,this.cardGameConfig.getPlayerCount())-1;
 		scanner.nextLine();
 		gameDealer.setName(cardPlayers.get(dealerIndex).getName());
+		gameDealer.setPlayerId(cardPlayers.get(dealerIndex).getPlayerId());
 		triantaPlayers.get(dealerIndex).setDealer(true);
 		gameDealer.addMoney(playerMoney *3);
 		for (int i = 0; i < triantaPlayers.size(); i++) {
@@ -328,6 +333,7 @@ public class TriantaGame extends CardGame {
 					dealerSet = true;
 					dealerIndex = playerIndex;
 					gameDealer.setName(cardPlayers.get(playerIndex).getName());
+					gameDealer.setPlayerId(cardPlayers.get(playerIndex).getPlayerId());
 					gameDealer.setMoney(triantaPlayers.get(playerIndex).getMoney());
 				}
 				else
