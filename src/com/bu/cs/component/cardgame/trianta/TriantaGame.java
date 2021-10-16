@@ -267,8 +267,8 @@ public class TriantaGame extends CardGame {
         gameDealer = new TriantaDealer ();
         this.cardGameConfig.setPlayerCount(GameFunctions.safeScanIntWithLimit(scanner,"Please enter the number of players: ", GameConstants.TRIANTA_PLAYER_LOWER_LIMIT,GameConstants.TRIANTA_PLAYER_UPPER_LIMIT));
         scanner.nextLine();
-        this.cardGameConfig.setNumberOfDecks(2);
-        this.cardGameConfig.setWinCondition(31);
+        this.cardGameConfig.setNumberOfDecks(GameConstants.TRIANTA_DECK_COUNT);
+        this.cardGameConfig.setWinCondition(GameConstants.TRIANTA_WIN_CONDITION);
         initializeDeck();
         for(int i=0;i<this.cardGameConfig.getPlayerCount();i++){
         	TriantaPlayer player = new TriantaPlayer();
