@@ -36,7 +36,7 @@ public class TriantaGame extends CardGame {
     @Override
     public void summary() {
 		//to add properly
-		System.out.println("Round Summary");
+		System.out.println("Game Summary");
 		System.out.println("==============");
 		int totalGames = 0;
 		for(TriantaPlayer currPlayer: triantaPlayers) {

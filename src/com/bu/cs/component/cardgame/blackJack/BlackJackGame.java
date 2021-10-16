@@ -30,7 +30,7 @@ public class BlackJackGame extends CardGame {
      */
     @Override
     public void summary() {
-        System.out.println("Round Summary");
+        System.out.println("Game Summary");
         System.out.println("==============");
         int totalGames = 0;
         System.out.println("Dealer: ");
