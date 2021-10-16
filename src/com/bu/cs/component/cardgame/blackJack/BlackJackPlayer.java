@@ -16,11 +16,13 @@ public class BlackJackPlayer extends CardPlayer {
 	 * Function to split the hand
 	 * @param handIndex
 	 */
-	public void split(int handIndex) {
+	public void split(int handIndex, Decks decks, BlackjackDealer blackjackDealer) {
 		Hand currentHand = this.getHands().get(handIndex);
 		if(currentHand.getCards().get(0).equals(currentHand.getCards().get(1))) {
 			Hand newHand = new Hand(currentHand.getCards().get(1),currentHand.getBet());
 			currentHand.removeCard(currentHand.getCards().get(1));
+			currentHand.addCard(blackjackDealer.dealPlayer(decks, false));
+			newHand.addCard(blackjackDealer.dealPlayer(decks, false));
 			this.addHand(newHand);
 		}
 	}

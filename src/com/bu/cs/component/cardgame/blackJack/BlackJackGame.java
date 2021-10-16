@@ -188,7 +188,7 @@ public class BlackJackGame extends CardGame {
                         currentPlayer.doubleUp(i, decks);
                         break;
                     case 4:
-                        currentPlayer.split(i);
+                        currentPlayer.split(i, decks, blackjackDealer);
                         break;
                 }
                 currentPlayer.getHands().get(i).display();
