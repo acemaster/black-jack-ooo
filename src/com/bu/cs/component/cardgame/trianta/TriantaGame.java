@@ -2,6 +2,7 @@ package com.bu.cs.component.cardgame.trianta;
 
 import com.bu.cs.component.Player;
 import com.bu.cs.component.cardgame.CardGame;
+import com.bu.cs.component.cardgame.card.Card;
 import com.bu.cs.component.cardgame.card.CardValue;
 import com.bu.cs.helper.GameFunctions;
 
@@ -55,11 +56,11 @@ public class TriantaGame extends CardGame {
 	@Override
 	public boolean isGameComplete(int playerIndex) {
 		int handIndex = 0;
-		if (triantaPlayers.get(playerIndex).getHands().get(handIndex).isWon()) {
+		if (triantaPlayers.get(playerIndex).getHands().get(handIndex).isWon() == true) {
 			System.out.println(triantaPlayers.get(playerIndex).getName()+" has a natural Trianta Ena.\n"+ triantaPlayers.get(playerIndex).getName()+" wins!!!");
 		}
-		else if(gameDealer.isBust()) {
-			if(!triantaPlayers.get(playerIndex).getHands().get(0).isBust()) {
+		else if(gameDealer.isBust() == true) {
+			if(triantaPlayers.get(playerIndex).getHands().get(0).isBust() == false) {
 				triantaPlayers.get(playerIndex).getHands().get(handIndex).setWon(true);
 				System.out.println(triantaPlayers.get(playerIndex).getName()+" wins");
 			}			
@@ -100,9 +101,13 @@ public class TriantaGame extends CardGame {
 	public boolean isPlayerBust(int playerIndex) {
     	if(triantaPlayers.get(playerIndex).getHands().get(0).currentHand() > this.cardGameConfig.getWinCondition()) {
     		triantaPlayers.get(playerIndex).getHands().get(0).setBust(true);
-    		triantaPlayers.get(playerIndex).summary();
-    		System.out.println("Busted!! Try your luck in the next round");
-    	}
+    		if(triantaPlayers.get(playerIndex).isDealer() == true)
+    			System.out.println("Dealer's hand is a bust");
+    		else {
+    			triantaPlayers.get(playerIndex).summary();
+    			System.out.println("Busted!! Try your luck in the next round");
+    		}
+    	}   		
     	return triantaPlayers.get(playerIndex).getHands().get(0).isBust();
     }
 
@@ -182,7 +187,9 @@ public class TriantaGame extends CardGame {
 			triantaPlayers.get(dealerIndex).resetHand();//reset and added later to keep in sync
 			gameDealer.addCard(gameDealer.dealPlayer(decks, false));
 			gameDealer.summary();
-			triantaPlayers.get(dealerIndex).addHand(gameDealer.getHands().get(0));//just to check isbust logic based on player class
+			for(Card dealercards: gameDealer.getHands().get(0).getCards()) {
+				triantaPlayers.get(dealerIndex).addCard(dealercards);//just to check isbust logic based on player class
+			}
 			boolean isDealerBust = isPlayerBust(dealerIndex);
 			if(isDealerBust)
 				gameDealer.setBust(true);
@@ -197,8 +204,9 @@ public class TriantaGame extends CardGame {
 		}
 		else {
 			for(TriantaPlayer currPlayer: triantaPlayers) {
-				if(currPlayer.isDealer() == true) continue;
-				boolean isPlayerwin = isGameComplete(triantaPlayers.indexOf(currPlayer));
+				if(currPlayer.isDealer() == false) {
+					boolean isPlayerwin = isGameComplete(triantaPlayers.indexOf(currPlayer));
+				}
 			}
 		}
 	}
@@ -230,10 +238,10 @@ public class TriantaGame extends CardGame {
 					currPlayer.summary();
 					System.out.println(currPlayer.getName()+", you have a natural Trianta Ena. Let's see what the dealer has.");
 				}
-				else {
-					boolean isPlayerBust = isPlayerBust(triantaPlayers.indexOf(currPlayer));
-				}
-				}
+				//else {
+				//	boolean isPlayerBust = isPlayerBust(triantaPlayers.indexOf(currPlayer));
+				//}
+			}
 		}
 	}
 
@@ -299,6 +307,8 @@ public class TriantaGame extends CardGame {
 		gameDealer.resetHand();
 		triantaPlayers.get(dealerIndex).setMoney(gameDealer.getMoney());//showing dealer wallet as a player
 		summary();//display player summary before asking for dealer change
+
+		
 		Collections.sort(triantaPlayers);
 		Collections.reverse(triantaPlayers);//sort in decreasing order of their money
 
@@ -306,16 +316,21 @@ public class TriantaGame extends CardGame {
 		boolean dealerSet = false;
 		int playerIndex = 0;
 		while(dealerSet == false) {
-			if(triantaPlayers.get(playerIndex).isDealer() == true)
+			if(triantaPlayers.get(playerIndex).isDealer() == true) {
 				dealerSet = true;
+				dealerIndex = playerIndex;
+			}
 			else {
 				String playerAnswer = GameFunctions.safeScanString(scanner, triantaPlayers.get(playerIndex).getName()+", Would you like to be the dealer?Y/N:");
 				if(playerAnswer.equalsIgnoreCase("y")) {
+					for(TriantaPlayer currPlayer: triantaPlayers) {
+						if(currPlayer.isDealer() == true)
+							currPlayer.setDealer(false);
+					}
 					triantaPlayers.get(playerIndex).setDealer(true);
 					dealerSet = true;
-					triantaPlayers.get(dealerIndex).setDealer(false);
 					dealerIndex = playerIndex;
-					gameDealer.setName(cardPlayers.get(dealerIndex).getName());
+					gameDealer.setName(cardPlayers.get(playerIndex).getName());
 					gameDealer.setMoney(triantaPlayers.get(playerIndex).getMoney());
 				}
 				else
