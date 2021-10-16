@@ -39,7 +39,7 @@ public class Card implements Comparable<Card>{
      * @return
      */
     public boolean equals(Card card){
-        return (this.getCardValue() == card.getCardValue() && this.getSuit() == card.getSuit());
+        return (this.getCardValue() == card.getCardValue());
     }
     public Suit getSuit() {
         return suit;

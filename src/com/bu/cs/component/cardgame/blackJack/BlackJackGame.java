@@ -171,7 +171,7 @@ public class BlackJackGame extends CardGame {
                 if(currentPlayer.getHands().get(i).getCards().size() == 2) {
                     List<Card> handCards = currentPlayer.getHands().get(i).getCards();
                     if(handCards.get(0).equals(handCards.get(1))) {
-                        message = message + "4.Split\n";
+                        message = message + "4. Split\n";
                         upperLimit = 4;
                     }
                 }
