@@ -167,8 +167,10 @@ public class BlackJackGame extends CardGame {
         for(int i = 0; i< currentPlayer.getHands().size(); i++) {
             while (currentPlayer.getHands().get(i).currentHand() <= this.cardGameConfig.getWinCondition() && !currentPlayer.getHands().get(i).isStand() ){
                 int upperLimit = 3;
-                currentPlayer.getHands().get(i).display();
-                System.out.printf("%s Hand %d current Hand: %d %n", currentPlayer.getName(), i+1, currentPlayer.getHands().get(i).currentHand());
+                if(i != 0) {
+                    currentPlayer.getHands().get(i).display();
+                    System.out.printf("%s Hand %d current Hand: %d %n", currentPlayer.getName(), i + 1, currentPlayer.getHands().get(i).currentHand());
+                }
                 String message = "Player "+ currentPlayer.getName()+": Please enter one of the options:\n1. Hit\n2. Stand\n3. Double\n";
                 if(currentPlayer.getHands().get(i).getCards().size() == 2) {
                     List<Card> handCards = currentPlayer.getHands().get(i).getCards();
@@ -193,6 +195,8 @@ public class BlackJackGame extends CardGame {
                         currentPlayer.split(i, decks, blackjackDealer);
                         break;
                 }
+                currentPlayer.getHands().get(i).display();
+                System.out.printf("%s Hand %d current Hand: %d %n", currentPlayer.getName(), i + 1, currentPlayer.getHands().get(i).currentHand());
                 if(currentPlayer.getHands().get(i).currentHand() > this.cardGameConfig.getWinCondition()){
                     // Player Bust
                     System.out.printf("Player %s: The player's Hand has bust %n", currentPlayer.getName());
