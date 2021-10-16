@@ -204,7 +204,7 @@ public class TriantaGame extends CardGame {
 		}
 		else {
 			for(TriantaPlayer currPlayer: triantaPlayers) {
-				if(currPlayer.isDealer() == false) {
+				if(currPlayer.isDealer() == false && currPlayer.isfold() == false && currPlayer.isCashout() == false) {
 					boolean isPlayerwin = isGameComplete(triantaPlayers.indexOf(currPlayer));
 				}
 			}
