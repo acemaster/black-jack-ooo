@@ -43,13 +43,13 @@ public class TriantaGame extends CardGame {
 			if(currPlayer.getPlayerId() == gameDealer.getPlayerId()) {
 				System.out.printf("Dealer %s: %n",currPlayer.getName());
 				System.out.printf("\tAccount Value: %d %n",currPlayer.getMoney());
+			} else {
+				System.out.printf("Player %s: %n", currPlayer.getName());
+				System.out.printf("\tWins         : %d %n", currPlayer.getWins());
+				System.out.printf("\tAccount Value: %d %n", currPlayer.getMoney());
 			}
-			System.out.printf("Player %s: %n",currPlayer.getName());
-			System.out.printf("\tWins         : %d %n",currPlayer.getWins());
-			System.out.printf("\tAccount Value: %d %n",currPlayer.getMoney());
 			totalGames = totalGames + currPlayer.getWins();
 		}
-		System.out.printf("Total Rounds played: %d %n",totalGames);
     }
 
 
