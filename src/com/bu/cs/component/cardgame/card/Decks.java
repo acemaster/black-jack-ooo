@@ -37,12 +37,7 @@ public class Decks {
      * @return
      */
     public Card getRandomCard() {
-        Deck deck = getRandomDeck();
-        Card card = deck.getRandomCard();
-        if(deck.getRemainingCards() == 0) {
-            deckList.remove(deck);
-        }
-        return card;
+        return getRandomCard(false);
     }
 
     /**

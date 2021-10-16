@@ -138,16 +138,16 @@ public class BlackJackGame extends CardGame {
 
     private boolean cashOutPlayers(Scanner scanner) {
         if(this.cardGameConfig.getPlayerCount() > 1) {
-            List<Integer> cashOutIndex = new ArrayList<>();
+            List<BlackJackPlayer> cashOutPlayers = new ArrayList<>();
             for(int i=0;i<cardGameConfig.getPlayerCount();i++) {
                 BlackJackPlayer player = blackJackPlayers.get(i);
                 if(GameFunctions.safeScanString(scanner, String.format("%s: Do you want to cash out? (Y/N): ",player.getName())).equalsIgnoreCase("Y")) {
-                    cashOutIndex.add(i);
+                    cashOutPlayers.add(player);
                 }
             }
-            int newPlayerCount = this.cardGameConfig.getPlayerCount() - cashOutIndex.size();
-            for(Integer index:cashOutIndex) {
-                blackJackPlayers.remove((int)index);
+            int newPlayerCount = this.cardGameConfig.getPlayerCount() - cashOutPlayers.size();
+            for(BlackJackPlayer player:cashOutPlayers) {
+                blackJackPlayers.remove(player);
             }
             if(newPlayerCount == 0) {
                 return true;
