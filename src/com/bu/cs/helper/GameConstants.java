@@ -9,4 +9,6 @@ public class GameConstants {
     public static final int BLACK_JACK_WIN_CONDITION = 21;
     public static final int BLACK_JACK_MAX_PLAYERS = 10;
     public static final int BLACK_JACK_MAX_DECKS = 10;
+    public static final int TRIANTA_PLAYER_LOWER_LIMIT = 7;
+    public static final int TRIANTA_PLAYER_UPPER_LIMIT = 9;
 }

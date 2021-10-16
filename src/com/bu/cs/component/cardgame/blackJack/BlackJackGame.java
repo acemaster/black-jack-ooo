@@ -42,7 +42,6 @@ public class BlackJackGame extends CardGame {
             System.out.printf("\tAccount Value: %d %n",blackJackPlayer.getMoney());
             totalGames = totalGames + blackJackPlayer.getWins();
         }
-        System.out.printf("Total Rounds played: %d %n",totalGames);
     }
 
 

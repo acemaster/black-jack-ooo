@@ -4,6 +4,7 @@ import com.bu.cs.component.Player;
 import com.bu.cs.component.cardgame.CardGame;
 import com.bu.cs.component.cardgame.card.Card;
 import com.bu.cs.component.cardgame.card.CardValue;
+import com.bu.cs.helper.GameConstants;
 import com.bu.cs.helper.GameFunctions;
 
 import java.util.ArrayList;
@@ -268,7 +269,7 @@ public class TriantaGame extends CardGame {
     	triantaPlayers = new ArrayList<>();
         cardPlayers = new ArrayList<>();
         gameDealer = new TriantaDealer ();
-        this.cardGameConfig.setPlayerCount(GameFunctions.safeScanIntWithLimit(scanner,"Please enter the number of players: ",3,9));
+        this.cardGameConfig.setPlayerCount(GameFunctions.safeScanIntWithLimit(scanner,"Please enter the number of players: ", GameConstants.TRIANTA_PLAYER_LOWER_LIMIT,GameConstants.TRIANTA_PLAYER_UPPER_LIMIT));
         scanner.nextLine();
         this.cardGameConfig.setNumberOfDecks(2);
         this.cardGameConfig.setWinCondition(31);
