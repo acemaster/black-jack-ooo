@@ -87,8 +87,8 @@ public class TriantaGame extends CardGame {
     public boolean isTrianta(int playerIndex) {
     	int handIndex = 0;
     	List<CardValue> playerCardValues = new ArrayList<>();
-    	for(int i = 0; i< triantaPlayers.get(handIndex).getHands().get(handIndex).getCards().size(); i++) {
-    		playerCardValues.add(triantaPlayers.get(handIndex).getHands().get(handIndex).getCards().get(i).getCardValue());
+    	for(int i = 0; i< triantaPlayers.get(playerIndex).getHands().get(handIndex).getCards().size(); i++) {
+    		playerCardValues.add(triantaPlayers.get(playerIndex).getHands().get(handIndex).getCards().get(i).getCardValue());
     	}
     	int aceOccurences = Collections.frequency(playerCardValues, CardValue.ACE);
     	int kingOccurences = Collections.frequency(playerCardValues, CardValue.KING);
@@ -175,20 +175,23 @@ public class TriantaGame extends CardGame {
 				currPlayer.addCard(gameDealer.dealPlayer(decks, false));
 		}
 		gameDealer.addCard(gameDealer.dealPlayer(decks, false));
-
-		//Display the dealer and players hand to let him choose either fold or bet
-		foldOrBet(scanner);
-		//Once the players bet deals two more cards and check if its a natural Trianta Ena and wait for dealers hand
+		
+		foldOrBet(scanner);		
 		checkNaturalTriantaForPlayer();
-		//Each player can either chose hit till bust or stand
 		displayDealerPlayerHand(scanner);
 		//after players are done, dealer plays until his mincount and check for a natural Trianta Ena
 		gameDealer.addCard(gameDealer.dealPlayer(decks, false));
 		gameDealer.addCard(gameDealer.dealPlayer(decks, false));
 		gameDealer.summary();
+		for(Card dealercards: gameDealer.getHands().get(0).getCards()) {
+			triantaPlayers.get(dealerIndex).resetHand();
+			triantaPlayers.get(dealerIndex).addCard(dealercards);//just to check natural Trianta Ena logic based on player class
+		}
 		if(isTrianta(dealerIndex) == true) {
 			gameDealer.getHands().get(0).setWon(true);
 		}
+		else
+			System.out.println("Dealer takes a hit until the card total reaches "+gameDealer.getMinvalue());
 		while(gameDealer.getHands().get(0).currentHand() < gameDealer.getMinvalue() && gameDealer.isBust() == false && gameDealer.getHands().get(0).isWon() == false) {
 			triantaPlayers.get(dealerIndex).resetHand();//reset and added later to keep in sync
 			gameDealer.addCard(gameDealer.dealPlayer(decks, false));
@@ -216,7 +219,8 @@ public class TriantaGame extends CardGame {
 			}
 		}
 	}
-
+	
+	//Each player can either chose hit till bust or stand
 	private void displayDealerPlayerHand(Scanner scanner) {
 		for(TriantaPlayer currPlayer: triantaPlayers) {
 			while((currPlayer.getHands().get(0).isBust() == false && currPlayer.getHands().get(0).isStand() == false) && currPlayer.isfold() == false && currPlayer.getHands().get(0).isWon() == false && currPlayer.isDealer() == false && currPlayer.isCashout() == false) {
@@ -232,7 +236,8 @@ public class TriantaGame extends CardGame {
 			}//while
 		}//for
 	}
-
+	
+	//Once the players bet deals two more cards and check if its a natural Trianta Ena and wait for dealers hand
 	private void checkNaturalTriantaForPlayer() {
 		for(TriantaPlayer currPlayer: triantaPlayers) {
 			if(currPlayer.isfold() == false && currPlayer.isDealer() == false && currPlayer.isCashout() == false) {
@@ -246,7 +251,8 @@ public class TriantaGame extends CardGame {
 			}
 		}
 	}
-
+	
+	//Display the dealer and players hand to let him choose either fold or bet
 	private void foldOrBet(Scanner scanner) {
 		for(TriantaPlayer currPlayer: triantaPlayers) {
 			if(currPlayer.isDealer() == false && currPlayer.isCashout() == false) {
@@ -321,6 +327,7 @@ public class TriantaGame extends CardGame {
 			if(triantaPlayers.get(playerIndex).isDealer() == true) {
 				dealerSet = true;
 				dealerIndex = playerIndex;
+				System.out.println(triantaPlayers.get(playerIndex).getName()+" will continue to be the dealer for the next round");
 			}
 			else if(triantaPlayers.get(playerIndex).isCashout() == false){
 				String playerAnswer = GameFunctions.safeScanString(scanner, triantaPlayers.get(playerIndex).getName()+", Would you like to be the dealer?Y/N:");
