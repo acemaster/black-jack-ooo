@@ -214,7 +214,7 @@ public class TriantaGame extends CardGame {
 
 	private void displayDealerPlayerHand(Scanner scanner) {
 		for(TriantaPlayer currPlayer: triantaPlayers) {
-			while((currPlayer.getHands().get(0).isBust() == false && currPlayer.getHands().get(0).isStand() == false) && currPlayer.isfold() == false && currPlayer.getHands().get(0).isWon() == false && currPlayer.isDealer() == false) {
+			while((currPlayer.getHands().get(0).isBust() == false && currPlayer.getHands().get(0).isStand() == false) && currPlayer.isfold() == false && currPlayer.getHands().get(0).isWon() == false && currPlayer.isDealer() == false && currPlayer.isCashout() == false) {
 				currPlayer.summary();
 				System.out.println(currPlayer.getName()+",choose the action you would like to take\n1.Hit\n2.Stand");
 				int playerOption = GameFunctions.safeScanIntWithLimit(scanner,"Enter option: ",1,2);
